@@ -4,6 +4,7 @@ Aufgabe bis 12.05.2024
 
 Leonie: 
 - Klassen erstellen
+- Handout anfang
   
 Oliver:
 - VR-Chat sucht bekämpfen
