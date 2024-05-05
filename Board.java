@@ -26,4 +26,5 @@ public class Board {
     public JPanel getPanel() {
         return panel;
     }
+    // Hallo Test Test
 }
