@@ -1,7 +1,5 @@
 # Battleship
 
-# Battleship
-
 Was am 05.05.2024 getan wurde
 
 - erster entwurf UML-Klassendiagramm
