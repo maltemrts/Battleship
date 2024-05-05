@@ -9,7 +9,7 @@ public class BattleGround {
         Board board2 = new Board();
 
         // Erstellen eines übergeordneten Containers
-        JFrame frame = new JFrame("Zwei Kästchenfelder nebeneinander");
+        JFrame frame = new JFrame("Battle Ground");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 2)); // GridLayout mit einer Zeile und zwei Spalten
 
