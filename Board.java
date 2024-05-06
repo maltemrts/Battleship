@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 public class Board {
 
     private JPanel panel;
@@ -16,6 +20,12 @@ public class Board {
             for (int j = 0; j < 10; j++) {
                 JPanel square = new JPanel();
                 square.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                square.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        square.setBackground(Color.red);
+                    }  
+                });
                 panel.add(square);
             }
         }
@@ -26,5 +36,4 @@ public class Board {
     public JPanel getPanel() {
         return panel;
     }
-    // Hallo Test Test
 }
