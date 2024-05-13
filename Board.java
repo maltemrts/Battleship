@@ -26,7 +26,48 @@ public class Board {
                 field[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        field[row][col].setBackground(Color.red);
+
+                        if(
+                            field[row][col].getBackground() == Color.RED
+                            && field[row+1][col].getBackground() == Color.RED
+                        )
+                        {
+                            if(col +1 < COL_COUNT)
+                            {
+                            field[row][col+1].setBackground(Color.red);
+                            }
+
+                            if(col -1 > -1)
+                            {
+                            field[row][col-1].setBackground(Color.red);
+                            }
+
+                            field[row+1][col].setBackground(null);
+                            field[row-1][col].setBackground(null);
+                        }
+
+                        else if (
+                            field[row][col].getBackground() != Color.RED
+                            || field[row][col+1].getBackground() == Color.RED
+
+                            )
+                        {
+                            field[row][col].setBackground(Color.red);
+
+
+                            if(row +1 < ROWS_COUNT)
+                            {
+                            field[row+1][col].setBackground(Color.red);
+                            }
+
+                            if(row -1 > -1)
+                            {
+                            field[row-1][col].setBackground(Color.red);
+                            }
+
+                            field[row][col+1].setBackground(null);
+                            field[row][col-1].setBackground(null);
+                        }
                         
                     }  
                 });
