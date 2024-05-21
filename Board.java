@@ -1,29 +1,23 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 
-import java.awt.GridLayout;
-import java.awt.Color;
-
-public class Board {
+public class Board extends JPanel {
     private static final int ROWS = 10;
     private static final int COLS = 10;
+    private static final int PANEL_SIZE = 30; // Größe eines einzelnen Panels (30x30 Pixel)
     private CustomPanel[][] panels = new CustomPanel[ROWS][COLS];
 
     public Board() {
         createAndShowGUI();
+        setPreferredSize(new Dimension(COLS * PANEL_SIZE, ROWS * PANEL_SIZE));
     }
 
     private void createAndShowGUI() {
-        // Erstelle ein JFrame
-        JFrame frame = new JFrame("Battlefield");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        // Set the layout for the board
+        setLayout(new GridLayout(ROWS, COLS));
 
-        // Setze Layout des JFrame
-        frame.setLayout(new GridLayout(ROWS, COLS));
-
-        // Initialisiere und füge die Panels hinzu
+        // Initialize and add the panels
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 panels[i][j] = new CustomPanel();
@@ -32,16 +26,13 @@ public class Board {
                 panels[i][j].setCol(j);
 
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
-                frame.add(panels[i][j]);
+                panels[i][j].setPreferredSize(new Dimension(PANEL_SIZE, PANEL_SIZE));
+                add(panels[i][j]);
             }
         }
-
-        // Mache das JFrame sichtbar
-        frame.setResizable(false);
-        frame.setVisible(true);
     }
 
-    // Methode zum Ändern der Farbe eines bestimmten Panels von außerhalb
+    // Method to change the color of a specific panel from outside
     public void changePanelColor(int row, int col, Color color) {
         if (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
             panels[row][col].changeColor(color);
