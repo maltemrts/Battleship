@@ -1,8 +1,10 @@
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class CustomPanel extends JPanel {
     private int row = -1;
@@ -17,24 +19,24 @@ public class CustomPanel extends JPanel {
                     changeColor(Color.RED);
                     isOccupied = true;
                 }
-            }
-
-            public void mousePressed(MouseEvent e) {
-                if(isOccupied) {
+                else{
                     changeColor(null);
                     isOccupied = false;
                 }
-
             }
-
-            public void mouseReleased(MouseEvent e) {
-                if(!isOccupied) {
-                    changeColor(Color.RED);
-                    isOccupied = true;
-                }
-            }
-
         });
+
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            }
+            
+            public void mouseReleased(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+
     }
 
     public void changeColor(Color newColor) {

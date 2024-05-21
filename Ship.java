@@ -1,25 +1,19 @@
 import java.util.ArrayList;
 
 public class Ship {
-    private String shipName;
     private int length;
-    private ArrayList<Cell> occupiedCells;
+    private ArrayList<ArrayList<Integer>> occupiedCells;
 
-    public Ship(String shipName, int length) {
-        this.shipName = shipName;
+    public Ship(int length, ArrayList<ArrayList<Integer>> occupiedCells) {
         this.length = length;
         this.occupiedCells = new ArrayList<>();
     }
-
-    public String getShipName() {
-        return shipName;
-    }
-
+    
     public int getLength() {
         return length;
     }
 
-    public ArrayList<Cell> getOccupiedCells() {
+    public ArrayList<ArrayList<Integer>> getOccupiedCells() {
         return occupiedCells;
     }
 }
