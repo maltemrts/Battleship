@@ -1,84 +1,50 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.GridLayout;
+import java.awt.Color;
 
 public class Board {
-
-    private JPanel panel;
-    private int ROWS_COUNT = 10;
-    private int COL_COUNT = 10;
+    private static final int ROWS = 10;
+    private static final int COLS = 10;
+    private CustomPanel[][] panels = new CustomPanel[ROWS][COLS];
 
     public Board() {
-        panel = new JPanel(new GridLayout(ROWS_COUNT, COL_COUNT));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        createAndShowGUI();
+    }
 
-        JPanel[][] field = new JPanel[ROWS_COUNT][COL_COUNT];
+    private void createAndShowGUI() {
+        // Erstelle ein JFrame
+        JFrame frame = new JFrame("Battlefield");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 600);
 
-        for (int i = 0; i < ROWS_COUNT; i++) {
-            for (int j = 0; j < COL_COUNT; j++) {
-                field[i][j] = new JPanel();
-                field[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                final int row = i;
-                final int col = j;
-                field[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
+        // Setze Layout des JFrame
+        frame.setLayout(new GridLayout(ROWS, COLS));
 
-                        if(
-                            field[row][col].getBackground() == Color.RED
-                            && field[row+1][col].getBackground() == Color.RED
-                        )
-                        {
-                            if(col +1 < COL_COUNT)
-                            {
-                            field[row][col+1].setBackground(Color.red);
-                            }
+        // Initialisiere und füge die Panels hinzu
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                panels[i][j] = new CustomPanel();
 
-                            if(col -1 > -1)
-                            {
-                            field[row][col-1].setBackground(Color.red);
-                            }
+                panels[i][j].setRow(i);
+                panels[i][j].setCol(j);
 
-                            field[row+1][col].setBackground(null);
-                            field[row-1][col].setBackground(null);
-                        }
-
-                        else if (
-                            field[row][col].getBackground() != Color.RED
-                            || field[row][col+1].getBackground() == Color.RED
-
-                            )
-                        {
-                            field[row][col].setBackground(Color.red);
-
-
-                            if(row +1 < ROWS_COUNT)
-                            {
-                            field[row+1][col].setBackground(Color.red);
-                            }
-
-                            if(row -1 > -1)
-                            {
-                            field[row-1][col].setBackground(Color.red);
-                            }
-
-                            field[row][col+1].setBackground(null);
-                            field[row][col-1].setBackground(null);
-                        }
-                        
-                    }  
-                });
-                panel.add(field[i][j]);
+                panels[i][j].setBorder(new LineBorder(Color.BLACK));
+                frame.add(panels[i][j]);
             }
         }
 
-
+        // Mache das JFrame sichtbar
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 
-    public JPanel getPanel() {
-        return panel;
+    // Methode zum Ändern der Farbe eines bestimmten Panels von außerhalb
+    public void changePanelColor(int row, int col, Color color) {
+        if (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
+            panels[row][col].changeColor(color);
+        }
     }
 }

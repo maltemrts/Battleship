@@ -1,4 +1,6 @@
-public class Cell {
+import javax.swing.JPanel;
+
+public class Cell extends JPanel{
     private int x;
     private int y;
     private boolean hit;
