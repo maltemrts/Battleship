@@ -53,24 +53,8 @@ public class Board {
 
                                 if (shipLength % 2 != 0) {
                                     if(shipLength == 1) {
-                                        try {
-                                            GameField.get(row - 1).set(col, 2);
-                                            GameField.get(row - 1).set(col - 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
-
-                                        try {
-                                            GameField.get(row + 1).set(col, 2);
-                                            GameField.get(row + 1).set(col - 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
-                                        try {
-                                            GameField.get(row - 1).set(col, 2);
-                                            GameField.get(row - 1).set(col + 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
-
-                                        try {
-                                            GameField.get(row + 1).set(col, 2);
-                                            GameField.get(row + 1).set(col + 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
+                                        setWaterSorrounding( row,  col, true);
+                                        setWaterSorrounding( row,  col, false);
                                     }
                                     shipLength /= 2;
                                     boolean isPlaceable = true;
@@ -144,26 +128,41 @@ public class Board {
                                     }
 
                                 } else {
+                                    boolean isPlaceable = true;
+                                    int spaceUp = 0;
+                                    int spaceDown = 0;
 
-                                    if(shipLength == 1) {
-                                        try {
-                                            GameField.get(row - 1).set(col, 2);
-                                            GameField.get(row - 1).set(col - 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
+                                    // Felder überhalb
+                                    for (int up = 1; up <= shipLength-1; up++) {
+                                        if (row - up > -1) {
+                                            if (GameField.get(row - up).get(col) == 0) {
+                                                spaceUp++;
+                                            }
+                                        } else
+                                            break;
+                                    }
 
-                                        try {
-                                            GameField.get(row + 1).set(col, 2);
-                                            GameField.get(row + 1).set(col - 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
-                                        try {
-                                            GameField.get(row - 1).set(col, 2);
-                                            GameField.get(row - 1).set(col + 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
+                                    // Felder unterhalb
+                                    for (int down = 1; down <= shipLength-1; down++) {
+                                        if (row + down < ROWS) {
+                                            if (GameField.get(row + down).get(col) == 0) {
+                                                spaceDown++;
+                                            }
+                                        } else
+                                            break;
+                                    }
 
-                                        try {
-                                            GameField.get(row + 1).set(col, 2);
-                                            GameField.get(row + 1).set(col + 1, 2);
-                                        } catch(IndexOutOfBoundsException Ignore) {}
+                                    if(spaceUp + spaceDown + 1 == shipLength)
+                                    {
+                                        if(spaceUp == shipLength / 2 - 1)
+                                        {
+                                            spaceUp = shipLength / 2 - 1;
+
+                                            for(int up = 1; up < spaceUp; up++)
+                                            {
+
+                                            }
+                                        }
                                     }
 
                                 }
@@ -189,6 +188,43 @@ public class Board {
 
         frame.setResizable(false);
         frame.setVisible(true);
+    }
+
+    public void setWaterSorrounding(int row, int col, boolean isUpwards)
+    {
+            int num = -1;
+
+            if(isUpwards) num = 1;
+
+            /*
+             * Oben Links, Oben Mitte, Oben Rechts
+             * Links, Rechts
+             */            
+                try { // Oben Links        
+                    GameField.get(row - num).set(col - 1, 2);
+                } catch (IndexOutOfBoundsException Ignore) {
+                }
+
+                try { // Oben Mitte
+                    GameField.get(row - num).set(col, 2);
+                } catch (IndexOutOfBoundsException Ignore) {
+                }
+
+                try { // Oben Rechts
+                    GameField.get(row - num).set(col + 1, 2);
+                } catch (IndexOutOfBoundsException Ignore) {
+                }
+
+            try { // Links        
+                GameField.get(row).set(col - 1, 2);
+            } catch (IndexOutOfBoundsException Ignore) {
+            }
+
+            try { // Rechts        
+                GameField.get(row).set(col + 1, 2);
+            } catch (IndexOutOfBoundsException Ignore) {
+            }
+        
     }
 
 }
