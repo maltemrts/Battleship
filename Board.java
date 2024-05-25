@@ -163,7 +163,7 @@ public class Board {
                         }
                         // Schiff entfernen
                         else if (SwingUtilities.isRightMouseButton(e)) {
-
+                            resetShip(row,col);
                         }
                     }
                 });
@@ -209,6 +209,40 @@ public class Board {
         try { // Rechts
             GameField.get(row).set(col + 1, 2);
         } catch (IndexOutOfBoundsException Ignore) {
+        }
+
+    }
+    private void resetShip(int row, int col)
+    {
+        //Entfernt setzt das geklickte Feld zurück
+        if (GameField.get(row).get(col) == 1) {
+            GameField.get(row).set(col, 0);
+            panels[row][col].setBackground(null);
+
+            // Überprüfen und Zurücksetzen der benachbarten Felder (oben und unten)
+            int shipLength = 1;
+            while (row - shipLength >= 0 && GameField.get(row - shipLength).get(col) == 1) {
+                GameField.get(row - shipLength).set(col, 0);
+                panels[row - shipLength][col].setBackground(null);
+                shipLength++;
+            }
+
+            shipLength = 1;
+            while (row + shipLength < ROWS && GameField.get(row + shipLength).get(col) == 1) {
+                GameField.get(row + shipLength).set(col, 0);
+                panels[row + shipLength][col].setBackground(null);
+                shipLength++;
+            }
+
+            // Zurücksetzen der umliegenden Wasserfelder
+            for (int i = Math.max(0, row - shipLength); i <= Math.min(ROWS - 1, row + shipLength); i++) {
+                for (int j = Math.max(0, col - 1); j <= Math.min(COLS - 1, col + 1); j++) {
+                    if (GameField.get(i).get(j) == 2) {
+                        GameField.get(i).set(j, 0);
+                        panels[i][j].setBackground(null);
+                    }
+                }
+            }
         }
 
     }
