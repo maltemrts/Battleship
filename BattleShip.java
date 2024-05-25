@@ -13,7 +13,7 @@ public class BattleShip {
      */
     public static ArrayList<ArrayList<Integer>> GameField = new ArrayList<>();
 
-    public static int[] boatSizes = { 2,2,2,2,3,3,3,4,4,1 };
+    public static int[] boatSizes = { 2,2,2,2,3,3,3,4,4,2 };
     /*
      * Standard Spiel:
      * Größe 10x10
