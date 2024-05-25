@@ -12,31 +12,7 @@ public class CustomPanel extends JPanel {
     private Boolean isOccupied = false;
 
     public CustomPanel() {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(!isOccupied) {
-                    changeColor(Color.RED);
-                    isOccupied = true;
-                }
-                else{
-                    changeColor(null);
-                    isOccupied = false;
-                }
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-            }
-            
-            public void mouseReleased(MouseEvent e) {
-                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
-
-
+        
     }
 
     public void changeColor(Color newColor) {
@@ -60,4 +36,13 @@ public class CustomPanel extends JPanel {
     public int getCol(int col) {
         return this.col;
     }
+
+    public boolean isOccupied() {
+        return isOccupied;
+    }
+    
+    public void setOccupied(boolean isOccupied) {
+        this.isOccupied = isOccupied;
+    }
+    
 }
