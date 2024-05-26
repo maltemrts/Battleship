@@ -1,3 +1,5 @@
+package Other;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +25,7 @@ public class BattleGround extends JFrame {
 
         // Create the board panel to hold the boards
         boardPanel = new JPanel();
-        boardPanel.add(new Board());
+      //  boardPanel.add(new Board());
 
         // Create a wrapper panel to ensure fixed size layout
         JPanel wrapperPanel = new JPanel(new BorderLayout());
@@ -43,7 +45,7 @@ public class BattleGround extends JFrame {
             if (!isTwoBoardsDisplayed) {
                 // Update the layout to hold two boards
                 boardPanel.setLayout(new GridLayout(1, 2));
-                boardPanel.add(new Board());
+           //     boardPanel.add(new Board());
 
                 // Update the frame size to accommodate two boards
                 setSize(BOARD_WIDTH * 2 + 100, BOARD_HEIGHT);

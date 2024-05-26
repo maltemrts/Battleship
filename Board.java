@@ -103,7 +103,7 @@ public class Board {
                                             GameField.get(row).set(col - 1, 2);
                                         } catch(IndexOutOfBoundsException Ignore) {}
                                     }
-
+                                // Wenn Schiffgroeße gerade:
                                 } else {
                                     boolean isPlaceable = true;
                                     int spaceUp = 0;
@@ -130,14 +130,25 @@ public class Board {
                                     }
 
                                     if (spaceUp + spaceDown + 1 >= shipLength) {
+
                                         int halfShipLength = shipLength / 2;
 
                                         // Berechne den tats채chlichen Platzbedarf nach oben und unten
                                         int upSpaces = Math.min(spaceUp, halfShipLength);
                                         int downSpaces = shipLength - (upSpaces + 1);
 
+                                        // wenn unten kein Platz mehr ist platziert er 3 felder oberhalb
+                                        if (spaceDown == 0)
+                                        {
+                                            for (int i = 0; i <= spaceUp; i++) {
+                                                setWaterSorrounding(row - i, col, true);
+                                                GameField.get(row - i).set(col, 1);
+                                                panels[row - i][col].setBackground(Color.RED);
+                                            }
+                                        }
                                         // Platzieren des Schiffs nach oben
-                                        for (int i = 0; i <= upSpaces; i++) {
+                                        for (int i = 0; i <= upSpaces; i++)
+                                        {
                                             setWaterSorrounding(row - i, col, true);
                                             GameField.get(row - i).set(col, 1);
                                             panels[row - i][col].setBackground(Color.RED);
@@ -145,25 +156,31 @@ public class Board {
 
                                         // Platzieren des Schiffs nach unten
                                         for (int i = 1; i <= downSpaces; i++) {
-                                            setWaterSorrounding(row + i, col, false);
-                                            GameField.get(row + i).set(col, 1);
-                                            panels[row + i][col].setBackground(Color.RED);
+                                           try
+                                           {
+                                               setWaterSorrounding(row + i, col, false);
+                                               GameField.get(row + i).set(col, 1);
+                                               panels[row + i][col].setBackground(Color.RED);
+                                           } catch (IndexOutOfBoundsException Ignore) {}
                                         }
                                     }
 
                                 }
 
                             }
-
+                        }
+                        else if (SwingUtilities.isMiddleMouseButton(e))
+                        {
                             // Klicken um Schiff zu drehen
-                            if (GameField.get(row).get(col) == 1) {
-
+                            if (GameField.get(row).get(col) == 1)
+                            {
+                                deleteShip(row, col);
                             }
-
                         }
                         // Schiff entfernen
-                        else if (SwingUtilities.isRightMouseButton(e)) {
-
+                        else if (SwingUtilities.isRightMouseButton(e))
+                        {
+                            deleteShip(row,col);
                         }
                     }
                 });
@@ -180,7 +197,7 @@ public class Board {
     {
         int num = -1;
 
-        if(isUpwards) num = 1;
+        if (isUpwards) num = 1;
 
         /*
          * Oben Links, Oben Mitte, Oben Rechts
@@ -210,7 +227,73 @@ public class Board {
             GameField.get(row).set(col + 1, 2);
         } catch (IndexOutOfBoundsException Ignore) {
         }
+        try {//unten links
+            GameField.get(row + num).set(col - 1, 2);
+        } catch (IndexOutOfBoundsException Ignore) {
+        }
+        try {//unten mitte
+            GameField.get(row + num).set(col, 1);
+        } catch (IndexOutOfBoundsException Ignore) {
+        }
+        try {//unten rechts
+            GameField.get(row + num).set(col + 1, 2);
+        } catch (IndexOutOfBoundsException Ignore) {
+        }
+    }
+    private void deleteShip(int row, int col)
+    {
+        //Entfernt setzt das geklickte Feld zurück
+        if (GameField.get(row).get(col) == 1) {
+            GameField.get(row).set(col, 0);
+            panels[row][col].setBackground(null);
+
+            // Überprüfen und Zurücksetzen der benachbarten Felder (oben und unten)
+            int shipLength = 1;
+            while (row - shipLength >= 0 && GameField.get(row - shipLength).get(col) == 1) {
+                GameField.get(row - shipLength).set(col, 0);
+                panels[row - shipLength][col].setBackground(null);
+                shipLength++;
+            }
+
+            shipLength = 1;
+            while (row + shipLength < ROWS && GameField.get(row + shipLength).get(col) == 1) {
+                GameField.get(row + shipLength).set(col, 0);
+                panels[row + shipLength][col].setBackground(null);
+                shipLength++;
+            }
+
+            // Zurücksetzen der umliegenden Wasserfelder
+            for (int i = Math.max(0, row - shipLength); i <= Math.min(ROWS - 1, row + shipLength); i++) {
+                for (int j = Math.max(0, col - 1); j <= Math.min(COLS - 1, col + 1); j++) {
+                    if (GameField.get(i).get(j) == 2) {
+                        GameField.get(i).set(j, 0);
+                        panels[i][j].setBackground(null);
+                    }
+                }
+            }
+        }
 
     }
-
+    private void checkPanelStatus(int row, int col)
+    {
+        try {
+            int status = GameField.get(row).get(col);
+            switch (status) {
+                case 0:
+                    System.out.println("Das Feld (" + row + ", " + col + ") ist frei.");
+                    break;
+                case 1:
+                    System.out.println("Das Feld (" + row + ", " + col + ") enthält ein Schiff.");
+                    break;
+                case 2:
+                    System.out.println("Das Feld (" + row + ", " + col + ") ist Wasser neben einem Schiff.");
+                    break;
+                default:
+                    System.out.println("Unbekannter Status für das Feld (" + row + ", " + col + ").");
+                    break;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Das Feld (" + row + ", " + col + ") ist außerhalb des Spielfelds.");
+        }
+    }
 }
