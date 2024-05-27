@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BattleShip {
     public int size;
@@ -13,7 +14,7 @@ public class BattleShip {
      */
     public static ArrayList<ArrayList<Integer>> GameField = new ArrayList<>();
 
-    public static int[] boatSizes = { 2,2,2,2,3,3,3,4,4,4 };
+    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4, 4, 4));
     /*
      * Standard Spiel:
      * Größe 10x10
