@@ -14,7 +14,7 @@ public class BattleShip {
      */
     public static ArrayList<ArrayList<Integer>> GameField = new ArrayList<>();
 
-    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4, 4, 4));
+    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(2, 2, 2, 2, 3, 3, 3, 2));
     /*
      * Standard Spiel:
      * Größe 10x10
@@ -36,7 +36,7 @@ public class BattleShip {
         int size = panel.size;
        
         GameField = setField(size);
-        GameField.get(2).set(0, 1);
+        
         Board board = new Board(size, GameField, boatSizes);
 
        /**
