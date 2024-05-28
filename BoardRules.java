@@ -54,10 +54,12 @@ public class BoardRules {
 
     public boolean placeShipVertical(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
     {
-        int length = boatSizes.getLast();
-
-        if(GameField.get(row).get(col) == 0)
+        if(!boatSizes.isEmpty())
         {
+            int length = boatSizes.getLast();
+
+            if(GameField.get(row).get(col) == 0)
+            {
             int spaceUp = 0;
             // Space Up
             for(int l = 1; l < length; l++)            
@@ -120,13 +122,16 @@ public class BoardRules {
                 return true;
             }
         }
+        }
 
         return false;
     }
 
     public boolean placeShipHorizontal(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
     {
-        int length = boatSizes.getLast();
+        if(!boatSizes.isEmpty())
+        {
+            int length = boatSizes.getLast();
 
         if(GameField.get(row).get(col) == 0)
         {
@@ -191,6 +196,7 @@ public class BoardRules {
 
                 return true;
             }
+        }
         }
         
         return false;

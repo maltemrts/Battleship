@@ -30,6 +30,8 @@ public class BattleShip {
         
         StartPanel panel = new StartPanel();
 
+        Board board = new Board();
+
         while(panel.isActive())
         {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
@@ -39,7 +41,24 @@ public class BattleShip {
         UserBoard = setField(size);
         ComputerBoard = setField(size);
         
-        Board board = new Board(size, UserBoard, boatSizes);
+        //Board board = new Board(size, UserBoard, boatSizes);
+        JPanel playerBoard = board.createAndShowGUI(size, UserBoard, boatSizes);
+        /* 
+        JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
+
+        JFrame mainFrame = new JFrame("Main Frame");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLayout(new GridLayout(1, 2));
+        mainFrame.add(playerBoard);
+        mainFrame.add(computerBoard);
+        
+        mainFrame.pack();
+        mainFrame.setVisible(true);
+        */
+        JFrame mainFrame = new JFrame("Main Frame");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.add(playerBoard);
+        mainFrame.setVisible(true);
     }
 
     public static ArrayList<ArrayList<Integer>> setField(int size) {

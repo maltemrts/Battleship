@@ -11,18 +11,16 @@ public class Board extends BoardRules {
     public ArrayList<ArrayList<Integer>> GameField;
     public static ArrayList<Integer> boatSizes;
 
-    public Board(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
         this.ROWS = size;
         this.COLS = size;
         this.panels = new JPanel[ROWS][COLS];
         this.GameField = GameField;
         this.boatSizes = boatSizes;
-        createAndShowGUI();
-    }
 
-    private void createAndShowGUI() {
-        JFrame frame = new JFrame("Battlefield");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel frame = new JPanel();
+        //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
@@ -98,6 +96,8 @@ public class Board extends BoardRules {
 
                 boardPanel.add(panels[i][j]);
             }
+
+           
         }
 
         // Add the board panel to the center of the frame
@@ -131,14 +131,14 @@ public class Board extends BoardRules {
             }
         });
 
-        frame.setResizable(false);
+        //frame.setResizable(false);
         // Center the frame on the screen
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+       // frame.setLocationRelativeTo(null);
+       // frame.setVisible(true);
 
-     //   placeShipsOnBoard(panels, GameField, boatSizes);
+       // placeShipsOnBoard(panels, GameField, boatSizes);
 
-     
+        return frame; 
     }
 
     private void setButtonStyle(JButton button, boolean selected) {
