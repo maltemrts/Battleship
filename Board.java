@@ -26,6 +26,11 @@ public class Board extends BoardRules {
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
+        JButton horizontal = new JButton("Horizontal");
+        JButton vertical = new JButton("Vertikal");
+        setButtonStyle(horizontal, true);
+        setButtonStyle(vertical, false);
+
         // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(ROWS, COLS));
@@ -47,7 +52,35 @@ public class Board extends BoardRules {
                         if (SwingUtilities.isLeftMouseButton(e)) {
                             // Klicken um Schiff zu platzieren - vertikal
                             if (GameField.get(row).get(col) == 0) {
-                                placeShipVertical(panels, GameField, boatSizes, row, col);
+                                // Actionlistener, ob das Boot horizontal oder vertikal platziert werden soll
+
+                                //Schiff wird horizontal platziert
+                                horizontal.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        setButtonStyle(horizontal, true);
+                                        setButtonStyle(vertical, false);
+                                        
+                                    }
+                                });
+                                
+                                //Schiff wird vertikal platziert
+                                vertical.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        setButtonStyle(horizontal, false);
+                                        setButtonStyle(vertical, true);
+                                        
+                                    }
+                                });
+
+                                if(vertical.getBackground() == Color.GRAY)
+                                {
+                                    placeShipVertical(panels, GameField, boatSizes, row, col);
+                                }
+                                else {
+                                    placeShipHorizontal(panels, GameField, boatSizes, row, col);
+                                }
                             }
                         } else if (SwingUtilities.isMiddleMouseButton(e)) {
                             // Klicken um Schiff zu drehen
@@ -76,8 +109,8 @@ public class Board extends BoardRules {
         frame.add(northPanel, BorderLayout.NORTH);
 
         JPanel southPanel = new JPanel();
-        southPanel.add(new JButton("Vertikal"));
-        southPanel.add(new JButton("Horizontal"));
+        southPanel.add(horizontal);
+        southPanel.add(vertical);
         frame.add(southPanel, BorderLayout.SOUTH);
 
         JPanel eastPanel = new JPanel();
@@ -104,6 +137,18 @@ public class Board extends BoardRules {
         frame.setVisible(true);
 
      //   placeShipsOnBoard(panels, GameField, boatSizes);
+
+     
     }
 
+    private void setButtonStyle(JButton button, boolean selected) {
+        if (selected) {
+            // ! Wichtig, Algorithmus check welcher Button ausgewählt ist am Background
+            button.setBackground(Color.GRAY);
+            button.setForeground(Color.WHITE);
+        } else {
+            button.setBackground(Color.WHITE);
+            button.setForeground(Color.BLACK);
+        }
+    }
 }
