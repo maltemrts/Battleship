@@ -1,6 +1,4 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.util.ArrayList;
 import java.awt.*;
@@ -25,21 +23,22 @@ public class Board extends BoardRules {
     private void createAndShowGUI() {
         JFrame frame = new JFrame("Battlefield");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        frame.setSize(800, 800);
+        frame.setLayout(new BorderLayout());
 
-        frame.setLayout(new GridLayout(ROWS, COLS));
+        // Create the panel that will hold the board
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(ROWS, COLS));
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 final int row = i;
                 final int col = j;
                 panels[i][j] = new JPanel();
-
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
                 if (GameField.get(i).get(j) == 1) {
-                    panels[i][j].setBackground(Color.red);
+                    panels[i][j].setBackground(Color.RED);
                 }
-
 
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
@@ -48,31 +47,48 @@ public class Board extends BoardRules {
                         if (SwingUtilities.isLeftMouseButton(e)) {
                             // Klicken um Schiff zu platzieren - vertikal
                             if (GameField.get(row).get(col) == 0) {
-
                                 placeShipVertical(panels, GameField, boatSizes, row, col);
-                                
                             }
                         } else if (SwingUtilities.isMiddleMouseButton(e)) {
                             // Klicken um Schiff zu drehen
                             if (GameField.get(row).get(col) == 1) {
                                 deleteShipAberBesser(panels, GameField, row, col);
-                                
                                 placeShipHorizontal(panels, GameField, boatSizes, row, col);
                             }
                         }
                         // Schiff entfernen
                         else if (SwingUtilities.isRightMouseButton(e)) {
-                            int shipLength = boatSizes.get(boatSizes.size()-1);
-                            deleteShipAberBesser(panels,GameField, row, col);
-                            
+                            deleteShipAberBesser(panels, GameField, row, col);
                         }
                     }
                 });
 
-                frame.add(panels[i][j]);
+                boardPanel.add(panels[i][j]);
             }
         }
 
+        // Add the board panel to the center of the frame
+        frame.add(boardPanel, BorderLayout.CENTER);
+
+        // Create and add panels for North, South, East, and West
+        JPanel northPanel = new JPanel();
+        northPanel.add(new JLabel("North Panel - Information"));
+        frame.add(northPanel, BorderLayout.NORTH);
+
+        JPanel southPanel = new JPanel();
+        southPanel.add(new JButton("Vertikal"));
+        southPanel.add(new JButton("Horizontal"));
+        frame.add(southPanel, BorderLayout.SOUTH);
+
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+        frame.add(eastPanel, BorderLayout.EAST);
+
+        JPanel westPanel = new JPanel();
+        westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
+        frame.add(westPanel, BorderLayout.WEST);
+
+        // Key listener to print the field
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -83,9 +99,11 @@ public class Board extends BoardRules {
         });
 
         frame.setResizable(false);
+        // Center the frame on the screen
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        placeShipsOnBoard(panels, GameField, boatSizes);
-        
+     //   placeShipsOnBoard(panels, GameField, boatSizes);
     }
+
 }
