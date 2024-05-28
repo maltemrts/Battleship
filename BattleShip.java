@@ -12,9 +12,10 @@ public class BattleShip {
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
      */
-    public static ArrayList<ArrayList<Integer>> GameField = new ArrayList<>();
+    public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
+    public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
 
-    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(2, 2, 2, 2, 3, 3, 3, 2));
+    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2,2,3,3));
     /*
      * Standard Spiel:
      * Größe 10x10
@@ -35,17 +36,10 @@ public class BattleShip {
         }
         int size = panel.size;
        
-        GameField = setField(size);
+        UserBoard = setField(size);
+        ComputerBoard = setField(size);
         
-        Board board = new Board(size, GameField, boatSizes);
-
-       /**
-        * Ziel heute:
-            - Spielfeldgröße einstellbar CHECK
-            - Zu jeder Spielfeldgröße Schiffe festlegen
-            - Schiffe platzierbar machen
-            - Drehbar, entfernbar
-        */
+        Board board = new Board(size, UserBoard, boatSizes);
     }
 
     public static ArrayList<ArrayList<Integer>> setField(int size) {

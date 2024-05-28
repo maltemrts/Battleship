@@ -1,47 +1,71 @@
+import java.awt.Color;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class Cell extends JPanel{
-    private int x;
-    private int y;
-    private boolean hit;
-    private boolean occupied;
-    private boolean status; // Der Status der Zelle (z.B. "getroffen" oder "nicht getroffen")
+    public boolean placeShipVertical(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
+    {
+        int length = boatSizes.getLast();
 
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.hit = false;
-        this.occupied = false;
-        this.status = false; // Zu Beginn ist die Zelle nicht getroffen
-    }
+        if(GameField.get(row).get(col) == 0)
+        {
+            int spaceUp = 0;
+            // Space Up
+            for(int l = 1; l < length; l++)            
+            {
+                if(GameField.get(row - l).get(col) == 0)
+                {
+                    spaceUp++;
+                }else break;
+            }
 
-    public int getX() {
-        return x;
-    }
+            int spaceDown = 0;
+            // Space Down
+            for(int r = 1; r < length; r++)
+            {
+                if(GameField.get(row + r).get(col) == 0)
+                {
+                    spaceDown++;
+                } else break;
+            }
 
-    public int getY() {
-        return y;
-    }
+            if(spaceUp + spaceDown + 1 >= length)
+            {
+                GameField.get(row).set(col, 1);
+                panels[row][col].setBackground(Color.RED);
+                setWaterSorroundingVertical(GameField, row, col, true);
+                setWaterSorroundingVertical(GameField, row, col, false);
+                length--;
 
-    public boolean isHit() {
-        return hit;
-    }
+                for(int l = 1; l < spaceUp; l++)
+                {
+                    if(length > 0)
+                    {
+                        GameField.get(row - l).set(col, 1);
+                        panels[row][col - l].setBackground(Color.RED);
+                        setWaterSorroundingVertical(GameField, row - l, col, true);
 
-    public void setHit(boolean hit) {
-        this.hit = hit;
-        this.status = true; // Setze den Status auf "getroffen", wenn die Zelle getroffen wird
-    }
+                        length--;
+                    } else break;
+                }
 
-    public boolean isOccupied() {
-        return occupied;
-    }
+                for(int r = 1; r < spaceDown; r++)
+                {
+                    if(length > 0)
+                    {
+                        GameField.get(row + r).set(col, 1);
+                        panels[row][col + r].setBackground(Color.RED);
+                        setWaterSorroundingVertical(GameField, row + r, col, false);
 
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
-    }
+                    }else break; 
+                }
 
-    public boolean getStatus() {
-        return status;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
