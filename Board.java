@@ -103,7 +103,6 @@ public class Board extends BoardRules {
         // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
-        // Create and add panels for North, South, East, and West
         JPanel northPanel = new JPanel();
         northPanel.add(new JLabel("North Panel - Information"));
         frame.add(northPanel, BorderLayout.NORTH);
@@ -114,10 +113,12 @@ public class Board extends BoardRules {
         frame.add(southPanel, BorderLayout.SOUTH);
 
         JPanel eastPanel = new JPanel();
+        eastPanel.setPreferredSize(new Dimension(20,0));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
 
         JPanel westPanel = new JPanel();
+        westPanel.setPreferredSize(new Dimension(20,0));
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
         frame.add(westPanel, BorderLayout.WEST);
 
