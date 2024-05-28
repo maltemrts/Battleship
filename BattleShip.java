@@ -6,6 +6,8 @@ import java.util.Arrays;
 public class BattleShip {
     public int size;
 
+    public ArrayList<Integer> selectedFleet = new ArrayList<>();
+
     /*
      * Regeln für GameField:
      * 0: Feld ist nicht besetzt und nicht in der Nähe eines Schiffes
@@ -37,9 +39,12 @@ public class BattleShip {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
         }
         int size = panel.size;
-       
+        ArrayList<Integer> selectedFleet = panel.selectedFleet;
         UserBoard = setField(size);
         ComputerBoard = setField(size);
+
+        System.out.println("Spielfeldgröße: " + size);
+        System.out.println("Ausgewählte Flotte: " + selectedFleet);
         
         //Board board = new Board(size, UserBoard, boatSizes);
         JPanel playerBoard = board.createAndShowGUI(size, UserBoard, boatSizes);
