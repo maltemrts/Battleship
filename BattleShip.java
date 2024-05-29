@@ -14,10 +14,9 @@ public class BattleShip {
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
      */
+    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2,2,3,3));
     public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
-
-    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2,2,3,3));
     /*
      * Standard Spiel:
      * Größe 10x10
@@ -29,6 +28,15 @@ public class BattleShip {
 
     public static void main(String[] args) {
 
+        // Array erstellt für den User kopiert boatsizes
+        ArrayList<Integer> userBoatSizes = new ArrayList<>(boatSizes);
+
+        // Array für computer kopiert boatsizes
+        ArrayList<Integer> computerBoatSizes = new ArrayList<>(boatSizes);
+
+        // UserBoard und ComputerBoard initialisieren
+//        ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
+//        ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
         
         StartPanel panel = new StartPanel();
 
@@ -39,31 +47,40 @@ public class BattleShip {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
         }
         int size = panel.size;
-        ArrayList<Integer> selectedFleet = panel.selectedFleet;
+        ///ArrayList<Integer> selectedFleet = panel.selectedFleet;
         UserBoard = setField(size);
         ComputerBoard = setField(size);
 
+
         System.out.println("Spielfeldgröße: " + size);
-        System.out.println("Ausgewählte Flotte: " + selectedFleet);
+      //  System.out.println("Ausgewählte Flotte: " + selectedFleet);
         
         //Board board = new Board(size, UserBoard, boatSizes);
-        JPanel playerBoard = board.createAndShowGUI(size, UserBoard, boatSizes);
-        /* 
-        JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
+        JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes);
+        /* */
+       // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
+        ComputerPlayer computerPlayer = new ComputerPlayer(size, ComputerBoard, computerBoatSizes);
+        JPanel[][] computerBoardPanels = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
+
 
         JFrame mainFrame = new JFrame("Main Frame");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new GridLayout(1, 2));
         mainFrame.add(playerBoard);
-        mainFrame.add(computerBoard);
+        mainFrame.add(computerPlayer.getPanel());
+        mainFrame.setBackground(Color.yellow);
+
+        // Schiffe für den Computer platzieren
+        computerPlayer.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
+
         
         mainFrame.pack();
-        mainFrame.setVisible(true);
-        */
-        JFrame mainFrame = new JFrame("Main Frame");
+       mainFrame.setVisible(true);
+
+      /*  JFrame mainFrame = new JFrame("Main Frame");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(playerBoard);
-        mainFrame.setVisible(true);
+        mainFrame.setVisible(true);*/
     }
 
     public static ArrayList<ArrayList<Integer>> setField(int size) {
