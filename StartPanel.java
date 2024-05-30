@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StartPanel extends JFrame {
     public int size = 10;
+    public ArrayList<Integer> selectedFleet = new ArrayList<>();
 
     public StartPanel() {
         setTitle("Spielfeldgröße wählen");
@@ -24,12 +27,15 @@ public class StartPanel extends JFrame {
 
         JLabel flotteLabel = new JLabel("Wähle deine Flotte:");
         add(flotteLabel);
+        flotteLabel.setVisible(false);
 
         JComboBox<String> flotte = new JComboBox<>();
         add(flotte);
+        flotte.setVisible(false);
         
         JButton startButton = new JButton("Start Game");
         add(startButton);
+        startButton.setEnabled(false);
 
         comboBox.addActionListener(new ActionListener() {
             @Override
@@ -59,6 +65,8 @@ public class StartPanel extends JFrame {
                     default: 
                     break;
                 }
+                flotteLabel.setVisible(true);
+                flotte.setVisible(true);
             }
         });
 
@@ -80,6 +88,7 @@ public class StartPanel extends JFrame {
                     default:
                         break;
                 }
+                startButton.setEnabled(true);
             }
         });
         
@@ -92,6 +101,7 @@ public class StartPanel extends JFrame {
         
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 }
