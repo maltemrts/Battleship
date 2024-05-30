@@ -271,7 +271,7 @@ public class BoardRules {
         }
     }
 
-    public void deleteShipAberBesser(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, int row, int col) {
+    public void deleteShipAberBesser(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, int row, int col, ArrayList<Integer> boatSizes) {
         int totalShipLength = 0;
 
         if (GameField.get(row).get(col) == 1) {
@@ -299,7 +299,7 @@ public class BoardRules {
             try {// All the way down (Iu Management)
                 int height = 1;
                 while (true) {
-                    if (GameField.get(row + height).get(col) == 1) {     
+                    if (GameField.get(row + height).get(col) == 1) {
                         GameField.get(row + height).set(col, 0);
                         panels[row + height][col].setBackground(null);
                         totalShipLength++;
@@ -341,9 +341,12 @@ public class BoardRules {
                 }
             } catch (IndexOutOfBoundsException Ignore) {
             }
-
         }
 
+        // Fügt die gelöschten Schiffe wieder an das Array an
+        if (totalShipLength > 0) {
+            boatSizes.add(totalShipLength);
+        }
     }
 
     public void deleteWaterSorrounding(ArrayList<ArrayList<Integer>> GameField, int row, int col) {
@@ -484,4 +487,5 @@ public class BoardRules {
 
         System.out.println("<-------- -------->");
     }
+
 }
