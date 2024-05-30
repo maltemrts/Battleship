@@ -3,6 +3,7 @@ import javax.swing.border.LineBorder;
 import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.NoSuchElementException;
 
 public class Board extends BoardRules {
     private int ROWS = -1;
@@ -79,17 +80,28 @@ public class Board extends BoardRules {
                                 else {
                                     placeShipHorizontal(panels, GameField, boatSizes, row, col);
                                 }
+
+                                // Zieht die Platzieren Boote ab und gibt eine Meldung aus sollten keine Schiffe mehr übrig sein
+                                try
+                                {
+                                    boatSizes.removeLast();
+                                }catch (NoSuchElementException ignore)
+                                {
+                                    JOptionPane.showMessageDialog(null, "Keine Schiffe mehr Übrig!");
+                                }
                             }
+
                         } else if (SwingUtilities.isMiddleMouseButton(e)) {
                             // Klicken um Schiff zu drehen
                             if (GameField.get(row).get(col) == 1) {
-                                deleteShipAberBesser(panels, GameField, row, col);
+                                deleteShipAberBesser(panels, GameField, row, col,boatSizes);
                                 placeShipHorizontal(panels, GameField, boatSizes, row, col);
                             }
                         }
                         // Schiff entfernen
                         else if (SwingUtilities.isRightMouseButton(e)) {
-                            deleteShipAberBesser(panels, GameField, row, col);
+                            deleteShipAberBesser(panels, GameField, row, col,boatSizes);
+
                         }
                     }
                 });
