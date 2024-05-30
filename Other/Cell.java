@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class Cell extends JPanel{
-    public boolean placeShipVertical(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
+/*    public boolean placeShipVertical(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
     {
         int length = boatSizes.getLast();
 
@@ -66,7 +66,7 @@ public class Cell extends JPanel{
         }
 
         return false;
-    }
+    }*/
 }
 
 
