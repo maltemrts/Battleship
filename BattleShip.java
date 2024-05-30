@@ -14,7 +14,7 @@ public class BattleShip {
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
      */
-    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2,2,3,3));
+    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2));
     public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
     /*
@@ -63,19 +63,16 @@ public class BattleShip {
         JPanel[][] computerBoardPanels = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
 
 
-        JFrame mainFrame = new JFrame("Main Frame");
+        JFrame mainFrame = new JFrame("Battleship");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new GridLayout(1, 2));
         mainFrame.add(playerBoard);
         mainFrame.add(computerPlayer.getPanel());
-        mainFrame.setBackground(Color.yellow);
 
         // Schiffe für den Computer platzieren
         computerPlayer.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
-
-        
         mainFrame.pack();
-       mainFrame.setVisible(true);
+        mainFrame.setVisible(true);
 
       /*  JFrame mainFrame = new JFrame("Main Frame");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,5 +93,3 @@ public class BattleShip {
         return arrayList;
     }
 }
-
-
