@@ -113,4 +113,3 @@ public class ComputerPlayer extends BoardRules {
         return panel;
     }
 }
-
