@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class BattleShip {
     public int size;
 
+
     public ArrayList<Integer> selectedFleet = new ArrayList<>();
 
     /*
@@ -28,19 +29,11 @@ public class BattleShip {
 
     public static void main(String[] args) {
 
-        // Array erstellt für den User kopiert boatsizes
-        ArrayList<Integer> userBoatSizes = new ArrayList<>(boatSizes);
-
-        // Array für computer kopiert boatsizes
-        ArrayList<Integer> computerBoatSizes = new ArrayList<>(boatSizes);
-
         // UserBoard und ComputerBoard initialisieren
         //ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
         //ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
         
         StartPanel panel = new StartPanel();
-
-        Board board = new Board();
 
         while(panel.isActive())
         {
@@ -48,26 +41,61 @@ public class BattleShip {
         }
         int size = panel.size;
         boolean allParamsSet = panel.allParamsSet;
-        
+
         if(allParamsSet)
         {
-
+            UserBoard = setField(size);
+            ComputerBoard = setField(size);
 
             PlacePanel placeShips = new PlacePanel();
             placeShips.createAndShowGUI(size, UserBoard, boatSizes);
             
             ///ArrayList<Integer> selectedFleet = panel.selectedFleet;
-        UserBoard = setField(size);
-        ComputerBoard = setField(size);
-
 
         System.out.println("Spielfeldgröße: " + size);
-      //  System.out.println("Ausgewählte Flotte: " + selectedFleet);
-        
+
+        PlacePanel placePanel = new PlacePanel();
+            while (!placePanel.getIsReadyToStart()) {
+                // Hier können Sie eine kleine Pause einlegen, um eine endlose Schleife zu vermeiden
+                try {
+                    Thread.sleep(100); // 100 Millisekunden warten
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            BattleShip battleShip = new BattleShip();
+            battleShip.openGameBoard(size);
+
+        }
+    }
+
+    public static ArrayList<ArrayList<Integer>> setField(int size) {
+        ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                row.add(0);
+            }
+            arrayList.add(row);
+        }
+        return arrayList;
+    }
+    public void openGameBoard(int size){
+
+        Board board = new Board();
+
+        // Array erstellt für den User kopiert boatsizes
+        ArrayList<Integer> userBoatSizes = new ArrayList<>(boatSizes);
+
+        // Array für computer kopiert boatsizes
+        ArrayList<Integer> computerBoatSizes = new ArrayList<>(boatSizes);
+
         //Board board = new Board(size, UserBoard, boatSizes);
         JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes);
         /* */
-       // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
+        // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
         ComputerPlayer computerPlayer = new ComputerPlayer(size, ComputerBoard, computerBoatSizes);
         JPanel[][] computerBoardPanels = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
 
@@ -87,21 +115,5 @@ public class BattleShip {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(playerBoard);
         mainFrame.setVisible(true);*/
-
-        
-        }
-    }
-
-    public static ArrayList<ArrayList<Integer>> setField(int size) {
-        ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
-
-        for (int i = 0; i < size; i++) {
-            ArrayList<Integer> row = new ArrayList<>();
-            for (int j = 0; j < size; j++) {
-                row.add(0);
-            }
-            arrayList.add(row);
-        }
-        return arrayList;
     }
 }
