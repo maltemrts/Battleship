@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.PageAttributes.ColorType;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
 
@@ -14,6 +15,8 @@ public class ComputerPlayer extends BoardRules {
     private JPanel[][] panels;
     public ArrayList<ArrayList<Integer>> GameField;
     public static ArrayList<Integer> boatSizes;
+    public static int totalCellsToHitPlayer = 0;
+    public static boolean playerHasShot = false;
 
 
 
@@ -40,12 +43,13 @@ public class ComputerPlayer extends BoardRules {
 //        return JPanel[][];
 //    }
 
-    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int totalCellsToHitPlayer) {
         this.ROWS = size;
         this.COLS = size;
         this.panels = new JPanel[ROWS][COLS];
         this.GameField = GameField;
         this.boatSizes = boatSizes;
+        this.totalCellsToHitPlayer = totalCellsToHitPlayer;
         
 
         JPanel frame = new JPanel();
@@ -64,7 +68,7 @@ public class ComputerPlayer extends BoardRules {
                 panels[i][j] = new JPanel();
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
                 if (GameField.get(i).get(j) == 1) {
-                    panels[i][j].setBackground(Color.RED);
+                    panels[i][j].setBackground(Color.GRAY);
                 }
 
                 panels[i][j].addMouseListener(new MouseAdapter() {
@@ -72,8 +76,16 @@ public class ComputerPlayer extends BoardRules {
                     public void mouseClicked(MouseEvent e) {
                        if(GameField.get(row).get(col) == 1)
                        {
-                        panels[row][col].setBackground(Color.GREEN);
+                            panels[row][col].setBackground(Color.GREEN);
+                            System.out.println("Getroffen, yeah!");
+                            GameField.get(row).set(col, 3);
+                            ComputerPlayer.totalCellsToHitPlayer--;       
+                       }else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2)
+                       {
+                           panels[row][col].setBackground(Color.BLUE);
+                           System.out.println("Verfehlt!");
                        }
+                       playerHasShot = true;
                     }
                 });
 
@@ -151,30 +163,9 @@ public class ComputerPlayer extends BoardRules {
         return GameField;
     }
 
-    public JPanel getPanel() {
-        JPanel panel = new JPanel(new GridLayout(ROWS, COLS));
 
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                final int rows = i;
-                final int col = j;
-
-                panels[i][j] = new JPanel();
-                panels[i][j].setBorder(new LineBorder(Color.BLACK));
-
-                panels[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if(GameField.get(rows).get(col) == 0)
-                        {
-                            System.out.println("Target not hit");
-                        }
-                    }
-                });
-                panel.add(panels[i][j]);
-            }
-        }
-
-        return panel;
+    public void shoot()
+    {
+        
     }
 }

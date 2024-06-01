@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
+/*
+ * Author: Mark Zuckerberg himself
+ */
+import java.util.Random;
 
 public class Board extends BoardRules {
     private int ROWS = -1;
@@ -12,24 +16,28 @@ public class Board extends BoardRules {
     public ArrayList<ArrayList<Integer>> GameField;
     public static ArrayList<Integer> boatSizes;
     public static boolean isReadyToStart = false;
+    public static int totalCellsToHitComputer = 0;
+    public static int size = 0;
+    public static Random random;
 
-    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes,
+            int totalCellsToHitComputer) {
         this.ROWS = size;
         this.COLS = size;
         this.panels = new JPanel[ROWS][COLS];
         this.GameField = GameField;
         this.boatSizes = boatSizes;
-
+        this.totalCellsToHitComputer = totalCellsToHitComputer;
+        this.size = size;
+        this.random = new Random(size);
 
         JPanel frame = new JPanel();
-        //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
         JButton horizontal = new JButton("Horizontal");
         JButton vertical = new JButton("Vertikal");
-        setButtonStyle(horizontal, true);
-        setButtonStyle(vertical, false);
 
         JLabel header = new JLabel("Platziere deine Schiffe");
         JButton startGame = new JButton("Spiel starten");
@@ -46,7 +54,7 @@ public class Board extends BoardRules {
                 panels[i][j] = new JPanel();
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
                 if (GameField.get(i).get(j) == 1) {
-                    panels[i][j].setBackground(Color.RED);
+                    panels[i][j].setBackground(Color.GRAY);
                 }
 
                 panels[i][j].addMouseListener(new MouseAdapter() {
@@ -67,42 +75,41 @@ public class Board extends BoardRules {
                     startGame.setVisible(false);
                 }
             });
-           
-        }
 
-        
+        }
 
         // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
         JPanel eastPanel = new JPanel();
-        eastPanel.setPreferredSize(new Dimension(20,0));
+        eastPanel.setPreferredSize(new Dimension(20, 0));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
 
-        //frame.setResizable(false);
+        // frame.setResizable(false);
         // Center the frame on the screen
-       // frame.setLocationRelativeTo(null);
-       // frame.setVisible(true);
+        // frame.setLocationRelativeTo(null);
+        // frame.setVisible(true);
 
-       // placeShipsOnBoard(panels, GameField, boatSizes);
+        // placeShipsOnBoard(panels, GameField, boatSizes);
 
-        return frame; 
+        return frame;
     }
 
-    private void setButtonStyle(JButton button, boolean selected) {
-        if (selected) {
-            // ! Wichtig, Algorithmus check welcher Button ausgewählt ist am Background
-            button.setBackground(Color.GRAY);
-            button.setForeground(Color.BLACK);
-        } else {
-            button.setBackground(Color.WHITE);
-            button.setForeground(Color.BLACK);
+    public void shoot() {
+        
+        int row = random.nextInt(size) + 0;
+        int col = random.nextInt(size) + 0;
+
+        if (GameField.get(row).get(col) == 1) {
+            panels[row][col].setBackground(Color.GREEN);
+            System.out.println("Getroffen, yeah!");
+            GameField.get(row).set(col, 3);
+            totalCellsToHitComputer--;
+        } else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2) {
+            panels[row][col].setBackground(Color.BLUE);
+            System.out.println("Verfehlt!");
         }
-    }
-
-    public boolean getIsReadyToStart()
-    {
-        return isReadyToStart;
+        
     }
 }

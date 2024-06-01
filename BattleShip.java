@@ -8,9 +8,9 @@ import org.w3c.dom.events.MouseEvent;
 
 public class BattleShip implements Cloneable{
     public int size;
+    public static int totalCellsToHitPlayer = 0;
+    public static int totalCellsToHitComputer = 0;
 
-
-    public ArrayList<Integer> selectedFleet = new ArrayList<>();
 
     /*
      * Regeln für GameField:
@@ -19,11 +19,11 @@ public class BattleShip implements Cloneable{
      * 2: Feld befindet sich neben einem Schiff
      */
     public static ArrayList<Integer> boatSizes = new ArrayList<>();
+    public static ArrayList<Integer> userBoatSizes = new ArrayList<>();
+    public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
+
     public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
-
-    public static ArrayList<Integer> userBoatSizes;
-    public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
     /*
      * Standard Spiel:
      * Größe 10x10
@@ -58,6 +58,10 @@ public class BattleShip implements Cloneable{
         {
             userBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
             computerBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
+            boatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
+
+            totalCellsToHitPlayer = countallBoatCells();
+            totalCellsToHitComputer = countallBoatCells();
 
            System.out.println(computerBoatSizes);
             UserBoard = setField(size);
@@ -103,12 +107,12 @@ public class BattleShip implements Cloneable{
 
         Board board = new Board();
 
-        JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes);
+        JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes, totalCellsToHitComputer);
         /* */
         // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
         ComputerPlayer computerPlayer = new ComputerPlayer();
         
-        JPanel computerBoardPanel = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
+        JPanel computerBoardPanel = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes , totalCellsToHitPlayer);
 
         JFrame mainFrame = new JFrame("Battleship");
         mainFrame.setSize(1200, 600);
@@ -127,13 +131,29 @@ public class BattleShip implements Cloneable{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(playerBoard);
         mainFrame.setVisible(true);*/
+
+        while(ComputerPlayer.totalCellsToHitPlayer > 0 || Board.totalCellsToHitComputer > 0)
+        {
+
+            if(ComputerPlayer.playerHasShot) {
+                board.shoot();
+                ComputerPlayer.playerHasShot = false;
+                System.out.println("Computer shot");
+            }
+
+        }
+
+
     }
 
-    public static ArrayList<Integer> cloneList(ArrayList<Integer> selectedFleet) {
-        ArrayList<Integer> clonedList = new ArrayList<Integer>(selectedFleet.size());
-        for (Integer boat : selectedFleet) {
-            clonedList.add(boat);
+    private static Integer countallBoatCells()
+    {
+        int totalCount = 0;
+        for(int boat : boatSizes)
+        {   
+            totalCount += boat;
         }
-        return clonedList;
+
+        return totalCount;
     }
 }
