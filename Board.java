@@ -52,78 +52,7 @@ public class Board extends BoardRules {
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        // Schiff platzieren oder drehen
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            // Klicken um Schiff zu platzieren - vertikal
-                            if (GameField.get(row).get(col) == 0) {
-                                // Actionlistener, ob das Boot horizontal oder vertikal platziert werden soll
-
-                                //Schiff wird horizontal platziert
-                                horizontal.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        setButtonStyle(horizontal, true);
-                                        setButtonStyle(vertical, false);
-                                        
-                                    }
-                                });
-                                
-                                //Schiff wird vertikal platziert
-                                vertical.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        setButtonStyle(horizontal, false);
-                                        setButtonStyle(vertical, true);
-                                        
-                                    }
-                                });
-
-                                if(vertical.getBackground() == Color.GRAY)
-                                {
-                                    placeShipVertical(panels, GameField, boatSizes, row, col);
-                                }
-                                else {
-                                    placeShipHorizontal(panels, GameField, boatSizes, row, col);
-                                }
-
-                                // Zieht die Platzieren Boote ab und gibt eine Meldung aus sollten keine Schiffe mehr übrig sein
-                                try
-                                {
-                                    boatSizes.removeLast();
-                                }catch (NoSuchElementException ignore)
-                                {
-                                    JOptionPane.showMessageDialog(null, "Keine Schiffe mehr Übrig!");
-                                }
-
-                                if(boatSizes.isEmpty())
-                                {
-                                    //Entfernt horizontal - vertikal Buttons um Spiel zu starten
-                                    horizontal.setVisible(false);
-                                    vertical.setVisible(false);
-
-                                    //Button, um das Spiel zu starten
-                                    startGame.setVisible(true);
-                                }
-                            }
-
-                        } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                            // Klicken um Schiff zu drehen
-                            if (GameField.get(row).get(col) == 1) {
-                                deleteShipAberBesser(panels, GameField, row, col,boatSizes);
-                                placeShipHorizontal(panels, GameField, boatSizes, row, col);
-                            }
-                        }
-                        // Schiff entfernen
-                        else if (SwingUtilities.isRightMouseButton(e)) {
-                            deleteShipAberBesser(panels, GameField, row, col,boatSizes);
-
-                            if(!boatSizes.isEmpty())
-                            {
-                                horizontal.setVisible(true);
-                                vertical.setVisible(true);
-                                startGame.setVisible(false);
-                            }
-                        }
+                        System.out.println(row + " " + col);
                     }
                 });
 
@@ -146,35 +75,10 @@ public class Board extends BoardRules {
         // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
-        JPanel northPanel = new JPanel();
-        northPanel.add(header);
-        frame.add(northPanel, BorderLayout.NORTH);
-
-        JPanel southPanel = new JPanel();
-        southPanel.add(horizontal);
-        southPanel.add(startGame);
-        southPanel.add(vertical);
-        frame.add(southPanel, BorderLayout.SOUTH);
-
         JPanel eastPanel = new JPanel();
         eastPanel.setPreferredSize(new Dimension(20,0));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
-
-        JPanel westPanel = new JPanel();
-        westPanel.setPreferredSize(new Dimension(20,0));
-        westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
-        frame.add(westPanel, BorderLayout.WEST);
-
-        // Key listener to print the field
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    printField(GameField);
-                }
-            }
-        });
 
         //frame.setResizable(false);
         // Center the frame on the screen

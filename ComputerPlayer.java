@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
 import java.awt.*;
+import java.awt.event.*;
+import java.util.NoSuchElementException;
 
 public class ComputerPlayer extends BoardRules {
     private int fieldSize;
@@ -13,16 +15,7 @@ public class ComputerPlayer extends BoardRules {
     public ArrayList<ArrayList<Integer>> GameField;
     public static ArrayList<Integer> boatSizes;
 
-    public ComputerPlayer(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
-        this.ROWS = size;
-        this.COLS = size;
-        this.panels = new JPanel[ROWS][COLS];
-        this.GameField = GameField;
-        this.boatSizes = boatSizes;
-    }
-    public ComputerPlayer(int fieldSize){
-        this.fieldSize = fieldSize;
-    }
+
 
 
 //    public JPanel[][] createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
@@ -47,32 +40,67 @@ public class ComputerPlayer extends BoardRules {
 //        return JPanel[][];
 //    }
 
-    public JPanel[][] createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
-        JFrame frame = new JFrame("Battlefield");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+        this.ROWS = size;
+        this.COLS = size;
+        this.panels = new JPanel[ROWS][COLS];
+        this.GameField = GameField;
+        this.boatSizes = boatSizes;
+
+        GameField = placeShipsOnBoard(GameField, boatSizes);
+        JPanel frame = new JPanel();
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
+        //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
 
-        frame.setLayout(new GridLayout(ROWS, COLS));
 
-        panels = new JPanel[ROWS][COLS];
+        // Create the panel that will hold the board
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(ROWS, COLS));
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
+                final int row = i;
+                final int col = j;
                 panels[i][j] = new JPanel();
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
                 if (GameField.get(i).get(j) == 1) {
                     panels[i][j].setBackground(Color.RED);
                 }
-                frame.add(panels[i][j]); // Panel dem Frame hinzufügen
+
+                panels[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println(row + " " + col);
+                    }
+                });
+
+                boardPanel.add(panels[i][j]);
             }
+           
         }
 
-        frame.setVisible(false);
-        return panels;
+        
+
+        // Add the board panel to the center of the frame
+        frame.add(boardPanel, BorderLayout.CENTER);
+
+        JPanel eastPanel = new JPanel();
+        eastPanel.setPreferredSize(new Dimension(20,0));
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+        frame.add(eastPanel, BorderLayout.EAST);
+
+        //frame.setResizable(false);
+        // Center the frame on the screen
+       // frame.setLocationRelativeTo(null);
+       // frame.setVisible(true);
+
+       // placeShipsOnBoard(panels, GameField, boatSizes);
+
+        return frame; 
     }
 
-    public void placeShipsOnBoard(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
+    public void placeShipsOnBoard(ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
         int maxTries = 0;
         Random random = new Random();
         int size = GameField.size() - 1;
@@ -107,6 +135,21 @@ public class ComputerPlayer extends BoardRules {
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
+                final int rows = i;
+                final int col = j;
+
+                panels[i][j] = new JPanel();
+                panels[i][j].setBorder(new LineBorder(Color.BLACK));
+
+                panels[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(GameField.get(rows).get(col) == 0)
+                        {
+                            System.out.println("Target not hit");
+                        }
+                    }
+                });
                 panel.add(panels[i][j]);
             }
         }

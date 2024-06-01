@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.w3c.dom.events.MouseEvent;
 
 public class BattleShip {
     public int size;
@@ -38,6 +39,11 @@ public class BattleShip {
         while(panel.isActive())
         {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
+            try {
+                Thread.sleep(100); // 100 Millisekunden warten
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         int size = panel.size;
         boolean allParamsSet = panel.allParamsSet;
@@ -96,19 +102,21 @@ public class BattleShip {
         JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes);
         /* */
         // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
-        ComputerPlayer computerPlayer = new ComputerPlayer(size, ComputerBoard, computerBoatSizes);
-        JPanel[][] computerBoardPanels = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
-
+        ComputerPlayer computerPlayer = new ComputerPlayer();
+        computerPlayer.placeShipsOnBoard(ComputerBoard, computerBoatSizes);
+        JPanel computerBoard = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
 
         JFrame mainFrame = new JFrame("Battleship");
+        mainFrame.setSize(1200, 600);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new GridLayout(1, 2));
         mainFrame.add(playerBoard);
-        mainFrame.add(computerPlayer.getPanel());
+        mainFrame.add(computerBoard);
 
         // Schiffe für den Computer platzieren
-        computerPlayer.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
-        mainFrame.pack();
+        //computerBoardPanels.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
+    
+        //mainFrame.pack();
         mainFrame.setVisible(true);
 
       /*  JFrame mainFrame = new JFrame("Main Frame");
