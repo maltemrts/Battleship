@@ -182,7 +182,7 @@ public class PlacePanel extends BoardRules {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        placeShipsOnBoard(panels, GameField, boatSizes);
+        //placeShipsOnBoard(panels, GameField, boatSizes);
 
         return frame; 
     }

@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+
 import org.w3c.dom.events.MouseEvent;
 
-public class BattleShip {
+public class BattleShip implements Cloneable{
     public int size;
 
 
@@ -16,9 +18,12 @@ public class BattleShip {
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
      */
-    public static ArrayList<Integer> boatSizes = new ArrayList<>(Arrays.asList(1,1,2));
+    public static ArrayList<Integer> boatSizes = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
+
+    public static ArrayList<Integer> userBoatSizes;
+    public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
     /*
      * Standard Spiel:
      * Größe 10x10
@@ -47,20 +52,26 @@ public class BattleShip {
         }
         int size = panel.size;
         boolean allParamsSet = panel.allParamsSet;
+        
 
         if(allParamsSet)
         {
+            userBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
+            computerBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
+
+           System.out.println(computerBoatSizes);
             UserBoard = setField(size);
             ComputerBoard = setField(size);
 
             PlacePanel placeShips = new PlacePanel();
-            placeShips.createAndShowGUI(size, UserBoard, boatSizes);
+            placeShips.createAndShowGUI(size, UserBoard, userBoatSizes);
+
+
             
-            ///ArrayList<Integer> selectedFleet = panel.selectedFleet;
+           // ArrayList<Integer> selectedFleet = panel.selectedFleet;
 
-        System.out.println("Spielfeldgröße: " + size);
 
-        PlacePanel placePanel = new PlacePanel();
+            PlacePanel placePanel = new PlacePanel();
             while (!placePanel.getIsReadyToStart()) {
                 // Hier können Sie eine kleine Pause einlegen, um eine endlose Schleife zu vermeiden
                 try {
@@ -92,26 +103,19 @@ public class BattleShip {
 
         Board board = new Board();
 
-        // Array erstellt für den User kopiert boatsizes
-        ArrayList<Integer> userBoatSizes = new ArrayList<>(boatSizes);
-
-        // Array für computer kopiert boatsizes
-        ArrayList<Integer> computerBoatSizes = new ArrayList<>(boatSizes);
-
-        //Board board = new Board(size, UserBoard, boatSizes);
         JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes);
         /* */
         // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
         ComputerPlayer computerPlayer = new ComputerPlayer();
-        computerPlayer.placeShipsOnBoard(ComputerBoard, computerBoatSizes);
-        JPanel computerBoard = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
+        
+        JPanel computerBoardPanel = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes);
 
         JFrame mainFrame = new JFrame("Battleship");
         mainFrame.setSize(1200, 600);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new GridLayout(1, 2));
         mainFrame.add(playerBoard);
-        mainFrame.add(computerBoard);
+        mainFrame.add(computerBoardPanel);
 
         // Schiffe für den Computer platzieren
         //computerBoardPanels.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
@@ -123,5 +127,13 @@ public class BattleShip {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(playerBoard);
         mainFrame.setVisible(true);*/
+    }
+
+    public static ArrayList<Integer> cloneList(ArrayList<Integer> selectedFleet) {
+        ArrayList<Integer> clonedList = new ArrayList<Integer>(selectedFleet.size());
+        for (Integer boat : selectedFleet) {
+            clonedList.add(boat);
+        }
+        return clonedList;
     }
 }

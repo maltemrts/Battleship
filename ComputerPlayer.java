@@ -46,13 +46,12 @@ public class ComputerPlayer extends BoardRules {
         this.panels = new JPanel[ROWS][COLS];
         this.GameField = GameField;
         this.boatSizes = boatSizes;
+        
 
-        GameField = placeShipsOnBoard(GameField, boatSizes);
         JPanel frame = new JPanel();
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
         //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
-
 
         // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
@@ -71,7 +70,10 @@ public class ComputerPlayer extends BoardRules {
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.out.println(row + " " + col);
+                       if(GameField.get(row).get(col) == 1)
+                       {
+                        panels[row][col].setBackground(Color.GREEN);
+                       }
                     }
                 });
 
@@ -95,39 +97,58 @@ public class ComputerPlayer extends BoardRules {
        // frame.setLocationRelativeTo(null);
        // frame.setVisible(true);
 
-       // placeShipsOnBoard(panels, GameField, boatSizes);
+       placeShipsOnBoard(panels, GameField, boatSizes);
+       
 
         return frame; 
     }
 
-    public void placeShipsOnBoard(ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
+    public ArrayList<ArrayList<Integer>> placeShipsOnComputerBoard(ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
+        ArrayList<ArrayList<Integer>> generatedField = GameField;
         int maxTries = 0;
         Random random = new Random();
-        int size = GameField.size() - 1;
+        int size = GameField.size()-1;
 
-        while (!boatSizes.isEmpty() || maxTries < 100) {
-            int placeRow = random.nextInt(size);
-            int placeCol = random.nextInt(size);
+        while(!boatSizes.isEmpty() || maxTries < 100)
+        {
+            int placeRow = random.nextInt(size)+0;
+            int placeCol = random.nextInt(size)+0;
 
             // 1 = Vertikal        2 = Horizontal \\
-            int horizontalOrVertical = random.nextInt(2);
+            int horizontalOrVertical = random.nextInt(2) + 1;
 
-            if (horizontalOrVertical == 1) {
-                if (placeShipVertical(panels, GameField, boatSizes, placeRow, placeCol)) {
+            if(horizontalOrVertical == 1)
+            {
+                if(placeShipVertical(panels, generatedField, boatSizes, placeRow, placeCol)){
+                    boatSizes.removeLast();
+                }
+                else if(placeShipHorizontal(panels, generatedField, boatSizes, placeRow, placeCol)){
                     boatSizes.removeLast();
                 }
             } else {
-                if (placeShipHorizontal(panels, GameField, boatSizes, placeRow, placeCol)) {
+                if(placeShipHorizontal(panels, generatedField, boatSizes, placeRow, placeCol)){
+                    boatSizes.removeLast();
+                }
+                else if(placeShipVertical(panels, generatedField, boatSizes, placeRow, placeCol)){
                     boatSizes.removeLast();
                 }
             }
 
             /*
-             * maxTries verhindert, dass die while Schleife unnötig lange läuft,
-             * sollte der Algorithmus es nicht hinbekommen, die Schiffe richtig zu platzieren
-             */
+            * maxTries verhindert, dass die while Schleife unnötig lange läuft,
+            * sollte der Algorithmus es nicht hinbekommen, die Schiffe richtig zu platzieren 
+            */
             maxTries++;
         }
+
+        if(boatSizes.isEmpty())
+        {
+            //printField(generatedField);
+            GameField = generatedField;
+        } else {
+            placeShipsOnBoard(panels, GameField, boatSizes);
+        }
+        return GameField;
     }
 
     public JPanel getPanel() {
