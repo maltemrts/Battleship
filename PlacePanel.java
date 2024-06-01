@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
 
-public class Board extends BoardRules {
+public class PlacePanel extends BoardRules {
     private int ROWS = -1;
     private int COLS = -1;
     private JPanel[][] panels;
@@ -13,7 +13,7 @@ public class Board extends BoardRules {
     public static ArrayList<Integer> boatSizes;
     public static boolean isReadyToStart = false;
 
-    public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+    public JFrame createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
         this.ROWS = size;
         this.COLS = size;
         this.panels = new JPanel[ROWS][COLS];
@@ -21,7 +21,7 @@ public class Board extends BoardRules {
         this.boatSizes = boatSizes;
 
 
-        JPanel frame = new JPanel();
+        JFrame frame = new JFrame();
         //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
@@ -136,6 +136,7 @@ public class Board extends BoardRules {
                     isReadyToStart = true;
                     header.setVisible(false);
                     startGame.setVisible(false);
+                    frame.dispose();
                 }
             });
            
@@ -176,12 +177,12 @@ public class Board extends BoardRules {
             }
         });
 
-        //frame.setResizable(false);
+        frame.setResizable(false);
         // Center the frame on the screen
-       // frame.setLocationRelativeTo(null);
-       // frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
-       // placeShipsOnBoard(panels, GameField, boatSizes);
+        placeShipsOnBoard(panels, GameField, boatSizes);
 
         return frame; 
     }

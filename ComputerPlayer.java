@@ -50,7 +50,8 @@ public class ComputerPlayer extends BoardRules {
     public JPanel[][] createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
         JFrame frame = new JFrame("Battlefield");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        frame.setSize(800, 800);
+        frame.setLayout(new BorderLayout());
 
         frame.setLayout(new GridLayout(ROWS, COLS));
 

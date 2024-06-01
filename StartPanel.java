@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class StartPanel extends JFrame {
     public int size = 10;
     public ArrayList<Integer> selectedFleet = new ArrayList<>();
+    public boolean allParamsSet = false;
 
     public StartPanel() {
         setTitle("Spielfeldgröße wählen");
@@ -95,6 +96,7 @@ public class StartPanel extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                allParamsSet = true;
                 dispose();
             }
         });

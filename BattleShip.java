@@ -35,8 +35,8 @@ public class BattleShip {
         ArrayList<Integer> computerBoatSizes = new ArrayList<>(boatSizes);
 
         // UserBoard und ComputerBoard initialisieren
-//        ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
-//        ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
+        //ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
+        //ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
         
         StartPanel panel = new StartPanel();
 
@@ -47,7 +47,16 @@ public class BattleShip {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
         }
         int size = panel.size;
-        ///ArrayList<Integer> selectedFleet = panel.selectedFleet;
+        boolean allParamsSet = panel.allParamsSet;
+        
+        if(allParamsSet)
+        {
+
+
+            PlacePanel placeShips = new PlacePanel();
+            placeShips.createAndShowGUI(size, UserBoard, boatSizes);
+            
+            ///ArrayList<Integer> selectedFleet = panel.selectedFleet;
         UserBoard = setField(size);
         ComputerBoard = setField(size);
 
@@ -78,6 +87,9 @@ public class BattleShip {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(playerBoard);
         mainFrame.setVisible(true);*/
+
+        
+        }
     }
 
     public static ArrayList<ArrayList<Integer>> setField(int size) {
