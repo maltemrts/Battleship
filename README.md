@@ -14,6 +14,8 @@
 
 Flottendefinitionen:
 
+Sie gibt die Anzahl der Schiffe und die länge der Schiffe an
+
 - kleine Flotte: 2,2,3
 - mittlere Flotte: 2,2,2,2,3,3,4
 - große Flotte: 2,2,2,2,3,3,3,4,4,5
