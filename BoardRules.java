@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
 /**
+ * Die Klasse {@code BoardRules} enthält alle Regeln für das Platzieren, Entfernen und Drehen der Schiffe auf dem Spielfeld.
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * Die Klasse {@code BoardRules} enthält alle Regeln für das Platzieren, Entfernen und Drehen der Schiffe auf dem Spielfeld.
  */
 public class BoardRules {
 

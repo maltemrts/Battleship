@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Die {@code EndPanel}-Klasse stellt das Endspiel-Panel dar und ermöglicht es dem Benutzer,
+ * zwischen dem Spielen erneut zu wählen oder das Spiel zu beenden.
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * Die {@code EndPanel}-Klasse stellt das Endspiel-Panel dar und ermöglicht es dem Benutzer,
- * zwischen dem Spielen erneut zu wählen oder das Spiel zu beenden.
  */
 public class EndPanel extends JFrame {
 

@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
 /**
+ * Die Klasse {@code PlacePanel} ermöglicht es dem Benutzer, Schiffe auf dem Spielfeld zu platzieren.
+ * Es erweitert die {@code BoardRules}-Klasse.
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * Die Klasse {@code PlacePanel} ermöglicht es dem Benutzer, Schiffe auf dem Spielfeld zu platzieren.
- * Es erweitert die {@code BoardRules}-Klasse.
  */
 public class PlacePanel extends BoardRules {
     /** Die Anzahl der Zeilen im Spielfeld. */

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * Die {@code ComputerPlayer}-Klasse verwaltet das Spielbrett und die Aktionen des Computers
+ * im Spiel "Schiffe versenken".
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * Die {@code ComputerPlayer}-Klasse verwaltet das Spielbrett und die Aktionen des Computers
- * im Spiel "Schiffe versenken".
  */
 public class ComputerPlayer extends BoardRules {
 

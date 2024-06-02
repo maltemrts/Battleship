@@ -8,12 +8,12 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
+ * Die Klasse {@code Board} erbt von {@code BoardRules} und repräsentiert das Spielfeld des Spiels.
+ * Sie enthält Methoden zur Erstellung der Benutzeroberfläche und zur Durchführung von Schüssen.
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * Die Klasse {@code Board} erbt von {@code BoardRules} und repräsentiert das Spielfeld des Spiels.
- * Sie enthält Methoden zur Erstellung der Benutzeroberfläche und zur Durchführung von Schüssen.
  */
 public class Board extends BoardRules {
     /** * Die Anzahl der Reihen im Spielfeld.*/
@@ -42,6 +42,8 @@ public class Board extends BoardRules {
 
     /** * Ein Zufallsgenerator für die Schusspositionen des Computers.*/
     public static Random random;
+
+    /** * Speichert den Punktestand. */
     public static JLabel score;
 
     /**

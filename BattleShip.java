@@ -5,13 +5,14 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 
 /**
+ * die {@code BattleShip}-Klasse implementiert das Hauptprogramm für das Spiel Battleship.
+ * Es ermöglicht das Starten des Spiels, die Verwaltung der Spielbretter und die Steuerung
+ * des Spielflusses zwischen Benutzer- und Computeraktionen.
+ *
  * @author Leonie Hahn
  * @author Malte Martens
  * @author Oliver Hartmann
  * @version 1.0
- * die {@code BattleShip}-Klasse implementiert das Hauptprogramm für das Spiel Battleship.
- * Es ermöglicht das Starten des Spiels, die Verwaltung der Spielbretter und die Steuerung
- * des Spielflusses zwischen Benutzer- und Computeraktionen.
  */
 public class BattleShip{
 
