@@ -10,3 +10,10 @@
 - zwei Kreutzer (4 Kästchen)
 - drei Zerstörer (3 Kästchen)
 - vier U-Boote (2 Kästchen)
+
+
+Flottendefinitionen:
+
+- kleine Flotte: 2,2,3
+- mittlere Flotte: 2,2,2,2,3,3,4
+- große Flotte: 2,2,2,2,3,3,3,4,4,5
