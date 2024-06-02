@@ -127,7 +127,7 @@ public class BoardRules {
                     if(length > 0)
                     {
                         GameField.get(row - l).set(col, 1);
-                    //    panels[row - l][col].setBackground(Color.GRAY);
+                        panels[row - l][col].setBackground(Color.GRAY);
                         setWaterSorroundingVertical(GameField, row - l, col, true);
 
                         length--;
