@@ -3,20 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Das {@code EndPanel} zeigt das Ergebnis des Spiels und bietet Optionen zum erneuten Spielen oder Beenden an.
- * Es erweitert die {@code JFrame}-Klasse.
- */
 public class EndPanel extends JFrame {
-    /** Der Gewinner des Spiels. */
-    private String winner = "select_User";
+        private String winner = "select_User";
 
-    /**
-     * Zeigt das Ergebnis des Spiels und die Schaltflächen zum erneuten Spielen oder Beenden an.
-     *
-     * @param winner Der Gewinner des Spiels ("Du", "Computer" oder "select_User").
-     */
-    public void endPanelMethod(String winner){
+        public void endPanelMethod(String winner){
         this.winner = winner;
         setTitle("Spielfeldgröße wählen");
         setLayout(new BorderLayout());
@@ -34,7 +24,7 @@ public class EndPanel extends JFrame {
 
 
         JButton playAgainButton = new JButton("Nochmal Spielen");
-        playAgainButton.addActionListener(new ActionListener() {
+            playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BattleShip battleShip = new BattleShip();
@@ -44,7 +34,7 @@ public class EndPanel extends JFrame {
         });
 
         JButton endButton = new JButton("Beenden");
-        endButton.addActionListener(new ActionListener() {
+            endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -53,7 +43,7 @@ public class EndPanel extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-
+        
         playAgainButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         playAgainButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, playAgainButton.getMinimumSize().height));
 
@@ -63,7 +53,7 @@ public class EndPanel extends JFrame {
         buttonPanel.add(playAgainButton);
         buttonPanel.add(endButton);
 
-
+        
         add(winnerLabel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
         setSize(325, 150);
@@ -72,22 +62,12 @@ public class EndPanel extends JFrame {
         setResizable(false);
         setVisible(true);
 
-    }
+        }
 
-    /**
-     * Setzt den Gewinner des Spiels.
-     *
-     * @param winner Der Gewinner des Spiels ("Du", "Computer" oder "select_User").
-     */
     public void setWinner(String winner) {
         this.winner = winner;
     }
 
-    /**
-     * Gibt den Gewinner des Spiels zurück.
-     *
-     * @return Der Gewinner des Spiels ("Du", "Computer" oder "select_User").
-     */
     public String getWinner() {
         return winner;
     }
