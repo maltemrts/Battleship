@@ -1,30 +1,43 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 import org.w3c.dom.events.MouseEvent;
 
-public class BattleShip implements Cloneable{
-    public int size;
-    public static int totalCellsToHitPlayer = 0;
-    public static int totalCellsToHitComputer = 0;
+/**
+ * @author Malte Martens
+ * @author Leonie Hahn
+ * @author Oliver Hartmann
+ * @version 1.0 (release)
+ *
+ * */
 
+/**
+ * Die Klasse {@code BattleShip} enthält die Mainmethode.
+ */
+
+public class BattleShip {
+    /**
+     * Die Gesamtanzahl der Zellen, die der Spieler treffen muss.
+     */
+    public static int totalCellsToHitPlayer = 0;
+
+    /**
+     * Die Gesamtanzahl der Zellen, die der Computer treffen muss.
+     */
+    public static int totalCellsToHitComputer = 0;
 
     /*
      * Regeln für GameField:
      * 0: Feld ist nicht besetzt und nicht in der Nähe eines Schiffes
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
-     */
-    public static ArrayList<Integer> boatSizes = new ArrayList<>();
-    public static ArrayList<Integer> userBoatSizes = new ArrayList<>();
-    public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
+     * 3: Feld beschossen
 
-    public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
-    public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
-    /*
      * Standard Spiel:
      * Größe 10x10
      * 4x2 Schiffe
@@ -32,20 +45,49 @@ public class BattleShip implements Cloneable{
      * 2x4 Schiffe
      * 1x5 Schiff
      */
+    /**
+     * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote enthält.
+     */
+    public static ArrayList<Integer> boatSizes = new ArrayList<>();
+
+    /**
+     * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote des Benutzers enthält.
+     */
+    public static ArrayList<Integer> userBoatSizes = new ArrayList<>();
+
+    /**
+     * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote des Computers enthält.
+     */
+    public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
+
+    /**
+     * Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld des Benutzers darstellt.
+     */
+    public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
+
+    /**
+     * Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld des Computers darstellt.
+     */
+    public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
+
+    /**
+     * Einstiegspunkt des Programms.
+     * Diese Methode startet die Startoberfläche des Spiels und wartet,
+     * bis eine Spielfeldgröße ausgewählt wurde hat.
+     *
+     * @param args Kommandozeilenargumente, die beim Start des Programms übergeben werden.
+     */
 
     public static void main(String[] args) {
 
-        // UserBoard und ComputerBoard initialisieren
-        //ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
-        //ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
-        
+
         StartPanel panel = new StartPanel();
 
         while(panel.isActive())
         {
             // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
             try {
-                Thread.sleep(100); // 100 Millisekunden warten
+                Thread.sleep(100); // Damit die schleife nicht unbegrenzt oft durchläuft ohne Pause --> führte zu fehlern
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -70,14 +112,9 @@ public class BattleShip implements Cloneable{
             PlacePanel placeShips = new PlacePanel();
             placeShips.createAndShowGUI(size, UserBoard, userBoatSizes);
 
-
-            
-           // ArrayList<Integer> selectedFleet = panel.selectedFleet;
-
-
             PlacePanel placePanel = new PlacePanel();
             while (!placePanel.getIsReadyToStart()) {
-                // Hier können Sie eine kleine Pause einlegen, um eine endlose Schleife zu vermeiden
+
                 try {
                     Thread.sleep(100); // 100 Millisekunden warten
                 } catch (InterruptedException e) {
@@ -91,6 +128,14 @@ public class BattleShip implements Cloneable{
         }
     }
 
+    /**
+     * Es wird ein Spielfeld erstellt und initialisiert mit der angegebenen Größe.
+     * Das Spielfeld wird als zweidimensionale {@code ArrayList} von {@code Integer} dargestellt,
+     * jede Zelle mit dem Wert 0 initialisiert wird.
+     *
+     * @param size Die Größe des Spielfeldes (Anzahl der Reihen und Spalten).
+     * @return Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das initialisierte Spielfeld darstellt.
+     */
     public static ArrayList<ArrayList<Integer>> setField(int size) {
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
 
@@ -103,6 +148,13 @@ public class BattleShip implements Cloneable{
         }
         return arrayList;
     }
+    /**
+     * Öffnet das Spielfeld.
+     * Diese Methode erstellt das Spielfeld für den Spieler und den Computer, zeigt das Hauptfenster an
+     * und startet den Spielablauf.
+     *
+     * @param size Die Größe des Spielfeldes (Anzahl der Reihen und Spalten).
+     */
     public void openGameBoard(int size){
 
         Board board = new Board();
@@ -151,10 +203,18 @@ public class BattleShip implements Cloneable{
         mainFrame.dispose();
         System.out.println("Computer tot");
         EndPanel endPanel = new EndPanel();
-        endPanel.endPanelMethod();
+        String winner;
+        winner = (ComputerPlayer.totalCellsToHitPlayer !=0)? "Computer" : "Du";
+        endPanel.endPanelMethod(winner);
 
     }
 
+    /**
+     * Zählt die Gesamtanzahl der Zellen, die von allen Booten belegt werden.
+     * Also die länge aller Boote werden zusammen gerechnet um sie mit allen Treffern abzugleichen.
+     *
+     * @return Die Gesamtanzahl der Zellen, die von allen Booten belegt werden.
+     */
     private static Integer countallBoatCells()
     {
         int totalCount = 0;
@@ -164,5 +224,38 @@ public class BattleShip implements Cloneable{
         }
 
         return totalCount;
+    }
+    /**
+     * Diese Methode startet die Anwendung neu.
+     * Sie wird verwendet, um die aktuelle JVM zu beenden und eine neue JVM-Instanz der Anwendung zu starten.
+     * Dies geschieht, indem der Java-Binärpfad, die Prozess-ID der aktuellen JVM, der Klassenpfad der Anwendung
+     * sowie der Hauptklassenname und deren Argumente abgerufen werden, um dann einen neuen Prozess mit diesen
+     * Informationen zu starten. Nach dem Start des neuen Prozesses wird die aktuelle JVM beendet.
+     *  */
+    public void restartApplication() {
+
+        String javaBin = System.getProperty("java.home") + "/bin/java";
+
+        String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+
+        // Führt die Mainklasse wieder aus
+        String jarPath = System.getProperty("java.class.path");
+        String className = System.getProperty("sun.java.command").split(" ")[0];
+
+        String[] command = {
+                javaBin,
+                "-cp",
+                jarPath,
+                className
+        };
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            processBuilder.start();
+
+            System.exit(0);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

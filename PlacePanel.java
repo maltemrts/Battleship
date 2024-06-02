@@ -4,16 +4,33 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
-
+/**
+ * Die Klasse {@code PlacePanel} ermöglicht es dem Benutzer, Schiffe auf dem Spielfeld zu platzieren.
+ * Es erweitert die {@code BoardRules}-Klasse.
+ */
 public class PlacePanel extends BoardRules {
+    /** Die Anzahl der Zeilen im Spielfeld. */
     private int ROWS = -1;
+    /** Die Anzahl der Spalten im Spielfeld. */
     private int COLS = -1;
+    /** Ein zweidimensionales Array von Panels, das das Spielfeld darstellt. */
     private JPanel[][] panels;
+    /** Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld darstellt. */
     public ArrayList<ArrayList<Integer>> GameField;
+    /** Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote enthält. */
     public static ArrayList<Integer> boatSizes;
+    /** Ein boolean-Wert, der angibt, ob der Benutzer bereit ist, das Spiel zu starten. */
     public static boolean isReadyToStart = false;
 
-    public JFrame createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
+    /**
+     * Erstellt und zeigt die grafische Benutzeroberfläche (GUI) zum Platzieren der Schiffe auf dem Spielfeld an.
+     *
+     * @param size       Die Größe des Spielfeldes.
+     * @param GameField  Die Datenstruktur, die das Spielfeld darstellt.
+     * @param boatSizes  Die Größen der Boote.
+     * @return Ein {@code JFrame}-Objekt, das die erstellte GUI darstellt.
+     */
+    public void createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
         this.ROWS = size;
         this.COLS = size;
         this.panels = new JPanel[ROWS][COLS];
@@ -22,7 +39,6 @@ public class PlacePanel extends BoardRules {
 
 
         JFrame frame = new JFrame();
-        //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
@@ -35,7 +51,6 @@ public class PlacePanel extends BoardRules {
         JButton startGame = new JButton("Spiel starten");
         startGame.setVisible(false);
 
-        // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(ROWS, COLS));
 
@@ -109,13 +124,13 @@ public class PlacePanel extends BoardRules {
                         } else if (SwingUtilities.isMiddleMouseButton(e)) {
                             // Klicken um Schiff zu drehen
                             if (GameField.get(row).get(col) == 1) {
-                                deleteShipAberBesser(panels, GameField, row, col,boatSizes);
+                                deleteShip(panels, GameField, row, col,boatSizes);
                                 placeShipHorizontal(panels, GameField, boatSizes, row, col);
                             }
                         }
                         // Schiff entfernen
                         else if (SwingUtilities.isRightMouseButton(e)) {
-                            deleteShipAberBesser(panels, GameField, row, col,boatSizes);
+                            deleteShip(panels, GameField, row, col,boatSizes);
 
                             if(!boatSizes.isEmpty())
                             {
@@ -142,9 +157,6 @@ public class PlacePanel extends BoardRules {
            
         }
 
-        
-
-        // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
         JPanel northPanel = new JPanel();
@@ -167,7 +179,7 @@ public class PlacePanel extends BoardRules {
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
         frame.add(westPanel, BorderLayout.WEST);
 
-        // Key listener to print the field
+
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -178,18 +190,19 @@ public class PlacePanel extends BoardRules {
         });
 
         frame.setResizable(false);
-        // Center the frame on the screen
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        //placeShipsOnBoard(panels, GameField, boatSizes);
-
-        return frame; 
     }
 
+    /**
+     * Setzt den Stil der Schaltfläche basierend auf dem ausgewählten Zustand.
+     *
+     * @param button   Die Schaltfläche, deren Stil gesetzt werden soll.
+     * @param selected Der Zustand, ob die Schaltfläche ausgewählt ist oder nicht.
+     */
     private void setButtonStyle(JButton button, boolean selected) {
-        if (selected) {
-            // ! Wichtig, Algorithmus check welcher Button ausgewählt ist am Background
+        if (selected) {  // ! Wichtig, Algorithmus checked welcher Button ausgewählt ist am Background
             button.setBackground(Color.GRAY);
             button.setForeground(Color.BLACK);
         } else {
@@ -198,8 +211,12 @@ public class PlacePanel extends BoardRules {
         }
     }
 
-    public boolean getIsReadyToStart()
-    {
+    /**
+     * Gibt an, ob der Benutzer bereit ist, das Spiel zu starten.
+     *
+     * @return {@code true}, wenn der Benutzer bereit ist, das Spiel zu starten, sonst {@code false}.
+     */
+    public boolean getIsReadyToStart() {
         return isReadyToStart;
     }
 }
