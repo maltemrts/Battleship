@@ -151,7 +151,9 @@ public class BattleShip implements Cloneable{
         mainFrame.dispose();
         System.out.println("Computer tot");
         EndPanel endPanel = new EndPanel();
-        endPanel.endPanelMethod();
+        String winner;
+        winner = (ComputerPlayer.totalCellsToHitPlayer != 0)? "Computer" : "Du";
+        endPanel.endPanelMethod(winner);
 
     }
 

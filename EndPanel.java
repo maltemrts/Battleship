@@ -6,11 +6,21 @@ import java.awt.event.ActionListener;
 public class EndPanel extends JFrame {
         private String winner = "select_User";
 
-        public void endPanelMethod(){
+        public void endPanelMethod(String winner){
+        this.winner = winner;
         setTitle("Spielfeldgröße wählen");
         setLayout(new BorderLayout());
 
-        JLabel winnerLabel = new JLabel("Der Gewinner ist: " + winner, SwingConstants.CENTER);
+        JLabel winnerLabel;
+        if(winner == "Du") {
+            winnerLabel = new JLabel("Du hast gewonnen!", JLabel.CENTER);
+        }
+        else if(winner == "Computer") {
+
+            winnerLabel = new JLabel("Du hast verloren, versuchs nochmal!", JLabel.CENTER);
+        } else {
+            winnerLabel = new JLabel("Der gewinner konnte nicht identifiziert werden", JLabel.CENTER);
+        }
 
 
         JButton beendenButton = new JButton("Beenden");
@@ -24,8 +34,10 @@ public class EndPanel extends JFrame {
         });
         add(beendenButton, BorderLayout.SOUTH);
 
+        
         add(winnerLabel);
         setSize(325, 150);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
