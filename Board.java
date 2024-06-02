@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
-/*
- * Author: Mark Zuckerberg himself
- */
+
 import java.util.Random;
 
 /**
