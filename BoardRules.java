@@ -2,8 +2,21 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
-
+/**
+ * Die Klasse {@code BoardRules} enthält alle Regeln für das Platzieren und Entfernen von Schiffen auf dem Spielfeld.
+ */
 public class BoardRules {
+
+    /**
+     * Platziert die Schiffe auf dem Spielfeld.
+     * Diese Methode versucht, alle Schiffe gemäß ihrer Größen auf dem Spielfeld zu platzieren.
+     * Wenn die Platzierung fehlschlägt, wird die Methode rekursiv aufgerufen, bis eine erfolgreiche Platzierung erreicht ist
+     * oder die maximale Anzahl von Versuchen erreicht wird.
+     *
+     * @param panels Die grafische Darstellung des Spielfelds als zweidimensionales Array von {@code JPanel}.
+     * @param GameField Die Datenstruktur, die das Spielfeld darstellt.
+     * @param boatSizes Eine {@code ArrayList} von {@code Integer}, die die Größen der zu platzierenden Boote enthält.
+     */
     public void placeShipsOnBoard(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes)
     {
         ArrayList<ArrayList<Integer>> generatedField = GameField;
@@ -52,6 +65,17 @@ public class BoardRules {
         }
     }
 
+    /**
+     * Platziert ein Schiff vertikal auf dem Spielfeld.
+     *
+     * @param panels Die Panels, die das Spielfeld darstellen.
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param boatSizes Die Liste der Größen der verbleibenden Boote.
+     * @param row Die Zeilenposition, an der das Schiff platziert werden soll.
+     * @param col Die Spaltenposition, an der das Schiff platziert werden soll.
+     * @return true, wenn das Schiff erfolgreich platziert wurde, ansonsten false.
+     * @throws IndexOutOfBoundsException Wenn man übers Spielfeld hinaus geht.
+     */
     public boolean placeShipVertical(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
     {
         if(!boatSizes.isEmpty())
@@ -89,7 +113,7 @@ public class BoardRules {
             if(spaceUp + spaceDown + 1 >= length)
             {
                 GameField.get(row).set(col, 1);
-                panels[row][col].setBackground(Color.RED);
+                panels[row][col].setBackground(Color.GRAY);
                 setWaterSorroundingVertical(GameField, row, col, true);
                 setWaterSorroundingVertical(GameField, row, col, false);
                 length--;
@@ -99,7 +123,7 @@ public class BoardRules {
                     if(length > 0)
                     {
                         GameField.get(row - l).set(col, 1);
-                        panels[row - l][col].setBackground(Color.RED);
+                    //    panels[row - l][col].setBackground(Color.GRAY);
                         setWaterSorroundingVertical(GameField, row - l, col, true);
 
                         length--;
@@ -111,7 +135,7 @@ public class BoardRules {
                     if(length > 0)
                     {
                         GameField.get(row + r).set(col, 1);
-                        panels[row + r][col].setBackground(Color.RED);
+                        panels[row + r][col].setBackground(Color.GRAY);
                         setWaterSorroundingVertical(GameField, row + r, col, false);
 
                         length--;
@@ -127,6 +151,17 @@ public class BoardRules {
         return false;
     }
 
+    /**
+     * Platziert ein Schiff horizontal auf dem Spielfeld.
+     *
+     * @param panels Die Panels, die das Spielfeld darstellen.
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param boatSizes Die Liste der Größen der verbleibenden Boote.
+     * @param row Die Zeilenposition, an der das Schiff platziert werden soll.
+     * @param col Die Spaltenposition, an der das Schiff platziert werden soll.
+     * @return true, wenn das Schiff erfolgreich platziert wurde, ansonsten false.
+     * @throws IndexOutOfBoundsException Wenn man übers Spielfeld hinaus geht.
+     */
     public boolean placeShipHorizontal(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int row, int col)
     {
         if(!boatSizes.isEmpty())
@@ -164,7 +199,7 @@ public class BoardRules {
             if(spaceLeft + spaceRight + 1 >= length)
             {
                 GameField.get(row).set(col, 1);
-                panels[row][col].setBackground(Color.RED);
+                panels[row][col].setBackground(Color.GRAY);
                 setWaterSorroundingHorizontal(GameField, row, col, true);
                 setWaterSorroundingHorizontal(GameField, row, col, false);
                 length--;
@@ -174,7 +209,7 @@ public class BoardRules {
                     if(length > 0)
                     {
                         GameField.get(row).set(col - l, 1);
-                        panels[row][col - l].setBackground(Color.RED);
+                        panels[row][col - l].setBackground(Color.GRAY);
                         setWaterSorroundingHorizontal(GameField, row, col - l, true);
 
                         length--;
@@ -186,7 +221,7 @@ public class BoardRules {
                     if(length > 0)
                     {
                         GameField.get(row).set(col + r, 1);
-                        panels[row][col + r].setBackground(Color.RED);
+                        panels[row][col + r].setBackground(Color.GRAY);
                         setWaterSorroundingHorizontal(GameField, row, col + r, false);
 
                         length--;
@@ -201,7 +236,15 @@ public class BoardRules {
         
         return false;
     }
-    
+
+    /**
+     * Setzt Wasser um die Position eines vertikal platzierten Schiffs.
+     *
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param row Die Zeilenposition des Schiffs.
+     * @param col Die Spaltenposition des Schiffs.
+     * @param isUpwards Gibt an, ob das Schiff nach oben zeigt.
+     */
     public void setWaterSorroundingVertical(ArrayList<ArrayList<Integer>> GameField,int row, int col, boolean isUpwards) {
         int num = -1;
 
@@ -238,6 +281,14 @@ public class BoardRules {
         }
     }
 
+    /**
+     * Setzt Wasser um die Position eines horizontal platzierten Schiffs.
+     *
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param row Die Zeilenposition des Schiffs.
+     * @param col Die Spaltenposition des Schiffs.
+     * @param isLeft Gibt an, ob das Schiff nach links zeigt.
+     */
     public void setWaterSorroundingHorizontal(ArrayList<ArrayList<Integer>> GameField, int row, int col, boolean isLeft) {
         int num = -1;
 
@@ -271,7 +322,17 @@ public class BoardRules {
         }
     }
 
-    public void deleteShipAberBesser(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, int row, int col, ArrayList<Integer> boatSizes) {
+    /**
+     * Löscht ein Schiff und die umliegenden Wasserkacheln vom Spielfeld und fügt die Länge des gelöschten Schiffes zur Liste der verbleibenden Bootgrößen hinzu.
+     *
+     * @param panels Die Panels, die das Spielfeld darstellen.
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param row Die Zeilenposition des zu löschenden Schiffes.
+     * @param col Die Spaltenposition des zu löschenden Schiffes.
+     * @param boatSizes Die Liste der Größen der verbleibenden Boote.
+     * @throws IndexOutOfBoundsException Wenn man übers Spielfeld hinaus geht.
+     */
+    public void deleteShip(JPanel[][] panels, ArrayList<ArrayList<Integer>> GameField, int row, int col, ArrayList<Integer> boatSizes) {
         int totalShipLength = 0;
 
         if (GameField.get(row).get(col) == 1) {
@@ -349,6 +410,13 @@ public class BoardRules {
         }
     }
 
+    /**
+     * Löscht die umliegenden Wasserkacheln um die Position eines gelöschten Schiffes.
+     *
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param row Die Zeilenposition des gelöschten Schiffes.
+     * @param col Die Spaltenposition des gelöschten Schiffes.
+     */
     public void deleteWaterSorrounding(ArrayList<ArrayList<Integer>> GameField, int row, int col) {
         try {
             if (GameField.get(row - 1).get(col - 1) == 2 && noShipAround(GameField, row - 1, col - 1)) {
@@ -402,6 +470,14 @@ public class BoardRules {
 
     }
 
+    /**
+     * Überprüft, ob es keine Schiffe um die angegebene Position gibt.
+     *
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     * @param row Die Zeilenposition der zu überprüfenden Position.
+     * @param col Die Spaltenposition der zu überprüfenden Position.
+     * @return true, wenn keine Schiffe um die Position vorhanden sind, ansonsten false.
+     */
     private boolean noShipAround(ArrayList<ArrayList<Integer>> GameField, int row, int col)
     {
         try {
@@ -457,28 +533,16 @@ public class BoardRules {
         return true;
     }
 
-    public void checkPanelStatus(ArrayList<ArrayList<Integer>> GameField, int row, int col) {
-        try {
-            int status = GameField.get(row).get(col);
-            switch (status) {
-                case 0:
-                    System.out.println("Das Feld (" + row + ", " + col + ") ist frei.");
-                    break;
-                case 1:
-                    System.out.println("Das Feld (" + row + ", " + col + ") enthält ein Schiff.");
-                    break;
-                case 2:
-                    System.out.println("Das Feld (" + row + ", " + col + ") ist Wasser neben einem Schiff.");
-                    break;
-                default:
-                    System.out.println("Unbekannter Status für das Feld (" + row + ", " + col + ").");
-                    break;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Das Feld (" + row + ", " + col + ") ist außerhalb des Spielfelds.");
-        }
-    }
-
+    /**
+     * Gibt das Spielfeld auf der Konsole aus.
+     * wurde zum Debugg benutzt um sich das Array anzuzeigen und ob die Felder richtig besetzt waren
+     * <pre>Regeln für Spielfeld</pre>
+     * <pre>0: Feld ist nicht besetzt und nicht in der Nähe eines Schiffes</pre>
+     * <pre>1: Schiff befindet sich auf dem Feld</pre>
+     * <pre>2: Feld befindet sich neben einem Schiff</pre>
+     * <pre>3: Feld beschossen</pre>
+     * @param GameField Die 2D-ArrayList, die das Spielfeld repräsentiert.
+     */
     public void printField(ArrayList<ArrayList<Integer>> GameField)
     {
         for (ArrayList<Integer> row : GameField) {

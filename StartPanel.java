@@ -5,11 +5,22 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Die Klasse {@code StartPanel} stellt die Benutzeroberfläche zum Starten des Spiels bereit.
+ * Der Benutzer kann die Spielfeldgröße und die Flotte auswählen.
+ */
 public class StartPanel extends JFrame {
+    /** Die Größe des Spielfeldes. */
     public int size = 10;
+    /** Die ausgewählte Flotte des Benutzers. */
     public ArrayList<Integer> selectedFleet = new ArrayList<>();
+    /** Ein boolean-Wert, der angibt, ob alle erforderlichen Parameter festgelegt wurden. */
     public boolean allParamsSet = false;
 
+    /**
+     * Konstruktor für die {@code StartPanel}-Klasse.
+     * Erstellt die Benutzeroberfläche und initialisiert die erforderlichen Komponenten.
+     */
     public StartPanel() {
         setTitle("Spielfeldgröße wählen");
         setLayout(new FlowLayout());
@@ -101,7 +112,7 @@ public class StartPanel extends JFrame {
             }
         });
         
-        setSize(300, 150);
+        setSize(325, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);

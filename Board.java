@@ -9,17 +9,66 @@ import java.util.NoSuchElementException;
  */
 import java.util.Random;
 
+/**
+ * Die Klasse {@code Board} erbt von {@code BoardRules} und repräsentiert das Spielfeld des Spiels.
+ * Sie enthält Methoden zur Erstellung der Benutzeroberfläche und zur Durchführung von Schüssen.
+ */
 public class Board extends BoardRules {
+    /**
+     * Die Anzahl der Reihen im Spielfeld.
+     */
     private int ROWS = -1;
+
+    /**
+     * Die Anzahl der Spalten im Spielfeld.
+     */
     private int COLS = -1;
+
+    /**
+     * Ein zweidimensionales Array von {@code JPanel}, das das Spielfeld darstellt.
+     */
     private JPanel[][] panels;
+
+    /**
+     * Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld darstellt.
+     */
     public ArrayList<ArrayList<Integer>> GameField;
+
+    /**
+     * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote enthält.
+     */
     public static ArrayList<Integer> boatSizes;
+
+    /**
+     * Ein Flag, das anzeigt, ob das Spiel bereit ist zu starten.
+     */
     public static boolean isReadyToStart = false;
+
+    /**
+     * Die Gesamtanzahl der Zellen, die der Computer treffen muss.
+     */
     public static int totalCellsToHitComputer = 0;
+
+    /**
+     * Die Größe des Spielfeldes.
+     */
     public static int size = 0;
+
+    /**
+     * Ein Zufallsgenerator für die Schusspositionen des Computers.
+     */
     public static Random random;
     public static JLabel score;
+
+    /**
+     * Erstellt und zeigt die grafische Benutzeroberfläche (GUI) für das Spielfeld.
+     *
+     * @param size Die Größe des Spielfeldes (Anzahl der Reihen und Spalten).
+     * @param GameField Die Datenstruktur, die das Spielfeld darstellt.
+     * @param boatSizes Die Größen der Boote.
+     * @param totalCellsToHitComputer Die Gesamtanzahl der Zellen, die der Computer treffen muss.
+     * @return Ein {@code JPanel}-Objekt, das die erstellte GUI darstellt.
+     */
 
     public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes,
             int totalCellsToHitComputer) {
@@ -88,6 +137,11 @@ public class Board extends BoardRules {
         return frame;
     }
 
+    /**
+     * Führt den Zug des Computers aus.
+     * Diese Methode wählt zufällig eine Position auf dem Spielfeld und überprüft,
+     * ob an dieser Stelle ein Boot getroffen wurde und verändert die Farbe und den "Wert" des Feldes.
+     */
     public void shoot() {
         
         int row = random.nextInt(size) + 0;
