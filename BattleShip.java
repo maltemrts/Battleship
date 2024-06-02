@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -166,5 +168,37 @@ public class BattleShip implements Cloneable{
         }
 
         return totalCount;
+    }
+
+    
+     public void restartApplication() {
+        // Get the Java binary path
+        String javaBin = System.getProperty("java.home") + "/bin/java";
+
+        // Get the current JVM process ID
+        String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+
+        // Get the main class and its arguments
+        String jarPath = System.getProperty("java.class.path");
+        String className = System.getProperty("sun.java.command").split(" ")[0];
+
+        // Rebuild the command to execute the application
+        String[] command = {
+            javaBin,
+            "-cp",
+            jarPath,
+            className
+        };
+
+        try {
+            // Start the new JVM process
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            processBuilder.start();
+
+            // Exit the current JVM
+            System.exit(0);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

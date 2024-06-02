@@ -28,7 +28,7 @@ public class EndPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BattleShip battleShip = new BattleShip();
-                battleShip.main(null);
+                battleShip.restartApplication();
                 System.exit(0);
             }
         });
