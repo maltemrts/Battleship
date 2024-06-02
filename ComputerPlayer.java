@@ -55,7 +55,10 @@ public class ComputerPlayer extends BoardRules {
         JPanel frame = new JPanel();
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
-        //frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
+
+        JLabel score = new JLabel("Du musst noch " + totalCellsToHitPlayer + " Zellen treffen", SwingConstants.CENTER);
+
+        
 
         // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
@@ -68,42 +71,45 @@ public class ComputerPlayer extends BoardRules {
                 panels[i][j] = new JPanel();
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
 
-
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                       if(GameField.get(row).get(col) != 3)
-                       {
-                        if(GameField.get(row).get(col) == 1)
-                       {
-                            panels[row][col].setBackground(Color.GREEN);
-                            System.out.println("Getroffen, yeah!");
-                            GameField.get(row).set(col, 3);
-                            ComputerPlayer.totalCellsToHitPlayer--;       
-                       }else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2)
-                       {
-                           panels[row][col].setBackground(Color.BLUE);
-                           System.out.println("Verfehlt!");
-                       }
-                       ComputerPlayer.playerHasShot = true;
+                       if (GameField.get(row).get(col) != 3) {
+                           if (GameField.get(row).get(col) == 1) {
+                               panels[row][col].setBackground(Color.GREEN);
+                               System.out.println("Getroffen, yeah!");
+                               GameField.get(row).set(col, 3);
+                               ComputerPlayer.totalCellsToHitPlayer--;
+                               score.setText("Du musst noch " + ComputerPlayer.totalCellsToHitPlayer + " Zellen treffen");
+                           } else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2) {
+                               panels[row][col].setBackground(Color.BLUE);
+                               System.out.println("Verfehlt!");
+                           }
+                           ComputerPlayer.playerHasShot = true;
                        }
                     }
                 });
 
                 boardPanel.add(panels[i][j]);
             }
-           
         }
 
-        
-
+        JPanel scorePanel = new JPanel(new BorderLayout());
+        scorePanel.add(score, BorderLayout.CENTER);
+        frame.add(scorePanel, BorderLayout.NORTH);
         // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
         JPanel eastPanel = new JPanel();
-        eastPanel.setPreferredSize(new Dimension(20,0));
+        eastPanel.setPreferredSize(new Dimension(20, 0));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
+
+        // Erstelle ein JFrame für die Darstellung des JPanel
+        JFrame jFrame = new JFrame();
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.add(frame);
+        jFrame.pack();
 
         //frame.setResizable(false);
         // Center the frame on the screen

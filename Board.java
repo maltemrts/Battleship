@@ -19,6 +19,7 @@ public class Board extends BoardRules {
     public static int totalCellsToHitComputer = 0;
     public static int size = 0;
     public static Random random;
+    public static JLabel score;
 
     public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes,
             int totalCellsToHitComputer) {
@@ -36,12 +37,11 @@ public class Board extends BoardRules {
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
-        JButton horizontal = new JButton("Horizontal");
-        JButton vertical = new JButton("Vertikal");
+        this.score = new JLabel("Der Computer muss noch " + totalCellsToHitComputer + " Zellen treffen", SwingConstants.CENTER);
+        JPanel scorePanel = new JPanel(new BorderLayout());
+        scorePanel.add(score, BorderLayout.CENTER);
 
-        JLabel header = new JLabel("Platziere deine Schiffe");
-        JButton startGame = new JButton("Spiel starten");
-        startGame.setVisible(false);
+        frame.add(scorePanel, BorderLayout.NORTH);
 
         // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
@@ -67,14 +67,6 @@ public class Board extends BoardRules {
                 boardPanel.add(panels[i][j]);
             }
 
-            startGame.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    isReadyToStart = true;
-                    header.setVisible(false);
-                    startGame.setVisible(false);
-                }
-            });
 
         }
 
@@ -106,6 +98,7 @@ public class Board extends BoardRules {
             System.out.println("Getroffen, yeah!");
             GameField.get(row).set(col, 3);
             totalCellsToHitComputer--;
+            score.setText("Der Computer muss noch " + totalCellsToHitComputer + " Zellen treffen");
         } else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2) {
             panels[row][col].setBackground(Color.BLUE);
             System.out.println("Verfehlt!");

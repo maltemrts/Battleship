@@ -31,7 +31,7 @@ public class PlacePanel extends BoardRules {
         setButtonStyle(horizontal, true);
         setButtonStyle(vertical, false);
 
-        JLabel header = new JLabel("Platziere deine Schiffe");
+        JLabel header = new JLabel("Platziere deine Schiffe, Schiffsgröße: " + boatSizes.getLast());
         JButton startGame = new JButton("Spiel starten");
         startGame.setVisible(false);
 
@@ -90,6 +90,11 @@ public class PlacePanel extends BoardRules {
                                 try
                                 {
                                     boatSizes.removeLast();
+                                    
+                                    if(!boatSizes.isEmpty())
+                                    {
+                                        header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
+                                    }
                                 }catch (NoSuchElementException ignore)
                                 {
                                     JOptionPane.showMessageDialog(null, "Keine Schiffe mehr Übrig!");
@@ -103,6 +108,8 @@ public class PlacePanel extends BoardRules {
 
                                     //Button, um das Spiel zu starten
                                     startGame.setVisible(true);
+
+                                    header.setText("Alle Schiffe gestartet, starte das Spiel");
                                 }
                             }
 
