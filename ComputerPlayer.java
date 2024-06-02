@@ -74,7 +74,9 @@ public class ComputerPlayer extends BoardRules {
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                       if(GameField.get(row).get(col) == 1)
+                       if(GameField.get(row).get(col) != 3)
+                       {
+                        if(GameField.get(row).get(col) == 1)
                        {
                             panels[row][col].setBackground(Color.GREEN);
                             System.out.println("Getroffen, yeah!");
@@ -85,7 +87,8 @@ public class ComputerPlayer extends BoardRules {
                            panels[row][col].setBackground(Color.BLUE);
                            System.out.println("Verfehlt!");
                        }
-                       playerHasShot = true;
+                       ComputerPlayer.playerHasShot = true;
+                       }
                     }
                 });
 

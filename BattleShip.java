@@ -132,17 +132,26 @@ public class BattleShip implements Cloneable{
         mainFrame.add(playerBoard);
         mainFrame.setVisible(true);*/
 
-        while(ComputerPlayer.totalCellsToHitPlayer > 0 || Board.totalCellsToHitComputer > 0)
+        while(ComputerPlayer.totalCellsToHitPlayer != 0 && Board.totalCellsToHitComputer != 0)
         {
+            try {// Das, sonst zu schnell für Computer (lowperformer)
+                Thread.sleep(100); // 100 Millisekunden warten
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if(ComputerPlayer.playerHasShot) {
                 board.shoot();
                 ComputerPlayer.playerHasShot = false;
                 System.out.println("Computer shot");
+                System.out.println(ComputerPlayer.totalCellsToHitPlayer);
             }
-
         }
 
+        mainFrame.dispose();
+        System.out.println("Computer tot");
+        EndPanel endPanel = new EndPanel();
+        endPanel.endPanelMethod();
 
     }
 
