@@ -97,16 +97,19 @@ public class PlacePanel extends BoardRules {
                                     }
                                 });
 
+                                boolean succesfull = false;
                                 if(vertical.getBackground() == Color.GRAY)
                                 {
-                                    placeShipVertical(panels, GameField, boatSizes, row, col);
+                                    succesfull = placeShipVertical(panels, GameField, boatSizes, row, col);
                                 }
                                 else {
-                                    placeShipHorizontal(panels, GameField, boatSizes, row, col);
+                                    succesfull = placeShipHorizontal(panels, GameField, boatSizes, row, col);
                                 }
 
                                 // Zieht die Platzieren Boote ab und gibt eine Meldung aus sollten keine Schiffe mehr übrig sein
-                                try
+                                if(succesfull)
+                                {
+                                    try
                                 {
                                     boatSizes.removeLast();
                                     
@@ -130,13 +133,21 @@ public class PlacePanel extends BoardRules {
 
                                     header.setText("Alle Schiffe gestartet, starte das Spiel");
                                 }
+                                }
                             }
 
                         } else if (SwingUtilities.isMiddleMouseButton(e)) {
                             // Klicken um Schiff zu drehen
                             if (GameField.get(row).get(col) == 1) {
                                 deleteShip(panels, GameField, row, col,boatSizes);
+                                header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
                                 placeShipHorizontal(panels, GameField, boatSizes, row, col);
+                                
+                                if(!boatSizes.isEmpty()) {
+                                    header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
+                                }else {
+                                    header.setText("Alle Schiffe gestartet, starte das Spiel");
+                                }
                             }
                         }
                         // Schiff entfernen
@@ -148,6 +159,8 @@ public class PlacePanel extends BoardRules {
                                 horizontal.setVisible(true);
                                 vertical.setVisible(true);
                                 startGame.setVisible(false);
+
+                                header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
                             }
                         }
                     }
