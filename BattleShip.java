@@ -3,16 +3,26 @@ import java.awt.*;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
-import org.w3c.dom.events.MouseEvent;
+/**
+ * @author Leonie Hahn
+ * @author Malte Martens
+ * @author Oliver Hartmann
+ * @version 1.0
+ * die {@code BattleShip}-Klasse implementiert das Hauptprogramm für das Spiel Battleship.
+ * Es ermöglicht das Starten des Spiels, die Verwaltung der Spielbretter und die Steuerung
+ * des Spielflusses zwischen Benutzer- und Computeraktionen.
+ */
+public class BattleShip{
 
-public class BattleShip implements Cloneable{
+    /** Die Größe des Spielbretts. */
     public int size;
-    public static int totalCellsToHitPlayer = 0;
-    public static int totalCellsToHitComputer = 0;
 
+    /** Die Gesamtanzahl der Zellen, die der Spieler treffen muss. */
+    public static int totalCellsToHitPlayer = 0;
+
+    /** Die Gesamtanzahl der Zellen, die der Computer treffen muss. */
+    public static int totalCellsToHitComputer = 0;
 
     /*
      * Regeln für GameField:
@@ -20,44 +30,44 @@ public class BattleShip implements Cloneable{
      * 1: Schiff befindet sich auf dem Feld
      * 2: Feld befindet sich neben einem Schiff
      */
+
+    /** Die Größen der Boote im Spiel. */
     public static ArrayList<Integer> boatSizes = new ArrayList<>();
+
+    /** Die Größen der Boote des Benutzers. */
     public static ArrayList<Integer> userBoatSizes = new ArrayList<>();
+
+    /** Die Größen der Boote des Computers. */
     public static ArrayList<Integer> computerBoatSizes = new ArrayList<>();
 
+    /** Das Spielbrett des Benutzers. */
     public static ArrayList<ArrayList<Integer>> UserBoard = new ArrayList<>();
-    public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
-    /*
-     * Standard Spiel:
-     * Größe 10x10
-     * 4x2 Schiffe
-     * 3x3 Schiffe
-     * 2x4 Schiffe
-     * 1x5 Schiff
-     */
 
+    /** Das Spielbrett des Computers. */
+    public static ArrayList<ArrayList<Integer>> ComputerBoard = new ArrayList<>();
+
+    /**
+     * Die Hauptmethode des Spiels, die das Spiel startet und den Spielablauf verwaltet.
+     *
+     * @param args Eingabeparameter.
+     */
     public static void main(String[] args) {
 
-        // UserBoard und ComputerBoard initialisieren
-        //ArrayList<ArrayList<Integer>> userBoard = new ArrayList<>();
-        //ArrayList<ArrayList<Integer>> computerBoard = new ArrayList<>();
-        
         StartPanel panel = new StartPanel();
 
-        while(panel.isActive())
-        {
-            // Panel ist aktiv, bis eine Größenauswahl getroffen wurde
+        // Warten bis die Größenauswahl getroffen wurde
+        while(panel.isActive()) {
             try {
-                Thread.sleep(100); // 100 Millisekunden warten
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
         int size = panel.size;
         boolean allParamsSet = panel.allParamsSet;
-        
 
-        if(allParamsSet)
-        {
+        if(allParamsSet) {
             userBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
             computerBoatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
             boatSizes = (ArrayList<Integer>) panel.selectedFleet.clone();
@@ -65,21 +75,14 @@ public class BattleShip implements Cloneable{
             totalCellsToHitPlayer = countallBoatCells();
             totalCellsToHitComputer = countallBoatCells();
 
-           System.out.println(computerBoatSizes);
             UserBoard = setField(size);
             ComputerBoard = setField(size);
 
             PlacePanel placeShips = new PlacePanel();
             placeShips.createAndShowGUI(size, UserBoard, userBoatSizes);
 
-
-            
-           // ArrayList<Integer> selectedFleet = panel.selectedFleet;
-
-
             PlacePanel placePanel = new PlacePanel();
             while (!placePanel.getIsReadyToStart()) {
-                // Hier können Sie eine kleine Pause einlegen, um eine endlose Schleife zu vermeiden
                 try {
                     Thread.sleep(100); // 100 Millisekunden warten
                 } catch (InterruptedException e) {
@@ -89,10 +92,15 @@ public class BattleShip implements Cloneable{
 
             BattleShip battleShip = new BattleShip();
             battleShip.openGameBoard(size);
-
         }
     }
 
+    /**
+     * Initialisiert ein Spielbrett der ausgewählten Größe.
+     *
+     * @param size Legt die Größe des Spielbretts.
+     * @return Ein zweidimensionales Array, das das leere Spielbrett darstellt.
+     */
     public static ArrayList<ArrayList<Integer>> setField(int size) {
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
 
@@ -105,15 +113,19 @@ public class BattleShip implements Cloneable{
         }
         return arrayList;
     }
-    public void openGameBoard(int size){
 
+    /**
+     * Öffnet das Spielbrett mit den gegebenen Parametern.
+     *
+     * @param size Die Größe des Spielbretts.
+     */
+    public void openGameBoard(int size){
         Board board = new Board();
 
         JPanel playerBoard = board.createAndShowGUI(size, UserBoard, userBoatSizes, totalCellsToHitComputer);
-        /* */
-        // JPanel computerBoard = board.createAndShowGUI(size, ComputerBoard, boatSizes);
+
         ComputerPlayer computerPlayer = new ComputerPlayer();
-        
+
         JPanel computerBoardPanel = computerPlayer.createAndShowGUI(size, ComputerBoard, computerBoatSizes , totalCellsToHitPlayer);
 
         JFrame mainFrame = new JFrame("Battleship");
@@ -123,21 +135,12 @@ public class BattleShip implements Cloneable{
         mainFrame.add(playerBoard);
         mainFrame.add(computerBoardPanel);
 
-        // Schiffe für den Computer platzieren
-        //computerBoardPanels.placeShipsOnBoard(computerBoardPanels, ComputerBoard, computerBoatSizes);
-    
-        //mainFrame.pack();
         mainFrame.setVisible(true);
-
-      /*  JFrame mainFrame = new JFrame("Main Frame");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.add(playerBoard);
-        mainFrame.setVisible(true);*/
 
         while(ComputerPlayer.totalCellsToHitPlayer != 0 && Board.totalCellsToHitComputer != 0)
         {
-            try {// Das, sonst zu schnell für Computer (lowperformer)
-                Thread.sleep(100); // 100 Millisekunden warten
+            try {
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -145,57 +148,46 @@ public class BattleShip implements Cloneable{
             if(ComputerPlayer.playerHasShot) {
                 board.shoot();
                 ComputerPlayer.playerHasShot = false;
-                System.out.println("Computer shot");
-                System.out.println(ComputerPlayer.totalCellsToHitPlayer);
             }
         }
 
         mainFrame.dispose();
-        System.out.println("Computer tot");
         EndPanel endPanel = new EndPanel();
-        String winner;
-        winner = (ComputerPlayer.totalCellsToHitPlayer != 0)? "Computer" : "Du";
+        String winner = (ComputerPlayer.totalCellsToHitPlayer != 0)? "Computer" : "Du";
         endPanel.endPanelMethod(winner);
-
     }
 
-    private static Integer countallBoatCells()
-    {
+    /**
+     * Rechnet die länge der Schiffe zusammen.
+     *
+     * @return Die Gesamtanzahl der Zellen aller Boote.
+     */
+    private static Integer countallBoatCells() {
         int totalCount = 0;
-        for(int boat : boatSizes)
-        {   
+        for(int boat : boatSizes) {
             totalCount += boat;
         }
-
         return totalCount;
     }
 
-    
-     public void restartApplication() {
-        // Get the Java binary path
+    /**
+     * Startet die Anwendung neu, indem sie eine neue JVM-Instanz startet und die aktuelle beendet.
+     */
+    public void restartApplication() {
         String javaBin = System.getProperty("java.home") + "/bin/java";
-
-        // Get the current JVM process ID
         String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
-
-        // Get the main class and its arguments
         String jarPath = System.getProperty("java.class.path");
         String className = System.getProperty("sun.java.command").split(" ")[0];
-
-        // Rebuild the command to execute the application
         String[] command = {
-            javaBin,
-            "-cp",
-            jarPath,
-            className
+                javaBin,
+                "-cp",
+                jarPath,
+                className
         };
 
         try {
-            // Start the new JVM process
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.start();
-
-            // Exit the current JVM
             System.exit(0);
         } catch (IOException ex) {
             ex.printStackTrace();

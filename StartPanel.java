@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * @author Leonie Hahn
+ * @author Malte Martens
+ * @author Oliver Hartmann
+ * @version 1.0
  * Die Klasse {@code StartPanel} stellt die Benutzeroberfläche zum Starten des Spiels bereit.
  * Der Benutzer kann die Spielfeldgröße und die Flotte auswählen.
  */

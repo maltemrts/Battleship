@@ -1,48 +1,53 @@
-import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
-import java.awt.PageAttributes.ColorType;
 import java.awt.event.*;
-import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.Random;
 
+/**
+ * @author Leonie Hahn
+ * @author Malte Martens
+ * @author Oliver Hartmann
+ * @version 1.0
+ * Die {@code ComputerPlayer}-Klasse verwaltet das Spielbrett und die Aktionen des Computers
+ * im Spiel "Schiffe versenken".
+ */
 public class ComputerPlayer extends BoardRules {
+
+    /** Die Größe des Spielfelds. */
     private int fieldSize;
+
+    /** Die Anzahl der Zeilen auf dem Spielfeld. */
     private int ROWS = -1;
+
+    /** Die Anzahl der Spalten auf dem Spielfeld. */
     private int COLS = -1;
+
+    /** Die Panels, die das Spielfeld repräsentieren. */
     private JPanel[][] panels;
+
+    /** Das Spielfeld des Computers. */
     public ArrayList<ArrayList<Integer>> GameField;
+
+    /** Die Größen der Boote des Computers. */
     public static ArrayList<Integer> boatSizes;
+
+    /** Die Gesamtanzahl der Zellen, die der Spieler treffen muss. */
     public static int totalCellsToHitPlayer = 0;
+
+    /** Ein Flag, das angibt, ob der Spieler geschossen hat. */
     public static boolean playerHasShot = false;
 
-
-
-
-//    public JPanel[][] createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes) {
-//        JFrame frame = new JFrame("Battlefield");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 600);
-//
-//        frame.setLayout(new GridLayout(ROWS, COLS));
-//
-//        for (int i = 0; i < ROWS; i++) {
-//            for (int j = 0; j < COLS; j++) {
-//                final int row = i;
-//                final int col = j;
-//                panels[i][j] = new JPanel();
-//
-//                panels[i][j].setBorder(new LineBorder(Color.BLACK));
-//                if (GameField.get(i).get(j) == 1) {
-//                    panels[i][j].setBackground(Color.red);
-//                }
-//            }
-//        }
-//        return JPanel[][];
-//    }
-
+    /**
+     * Erstellt das GUI für den Computer-Spieler und gibt das Panel zurück.
+     *
+     * @param size Die Größe des Spielfelds.
+     * @param GameField Das Spielfeld.
+     * @param boatSizes Die Größen der Boote des Computers.
+     * @param totalCellsToHitPlayer Die Gesamtanzahl der Zellen, die der Spieler treffen muss.
+     * @return Das Panel, das das Spielfeld des Computers darstellt.
+     */
     public JPanel createAndShowGUI(int size, ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer>boatSizes, int totalCellsToHitPlayer) {
         this.ROWS = size;
         this.COLS = size;
@@ -50,7 +55,6 @@ public class ComputerPlayer extends BoardRules {
         this.GameField = GameField;
         this.boatSizes = boatSizes;
         this.totalCellsToHitPlayer = totalCellsToHitPlayer;
-        
 
         JPanel frame = new JPanel();
         frame.setSize(800, 800);
@@ -58,9 +62,6 @@ public class ComputerPlayer extends BoardRules {
 
         JLabel score = new JLabel("Du musst noch " + totalCellsToHitPlayer + " Zellen treffen", SwingConstants.CENTER);
 
-        
-
-        // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(ROWS, COLS));
 
@@ -74,19 +75,19 @@ public class ComputerPlayer extends BoardRules {
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                       if (GameField.get(row).get(col) != 3) {
-                           if (GameField.get(row).get(col) == 1) {
-                               panels[row][col].setBackground(Color.GREEN);
-                               System.out.println("Getroffen, yeah!");
-                               GameField.get(row).set(col, 3);
-                               ComputerPlayer.totalCellsToHitPlayer--;
-                               score.setText("Du musst noch " + ComputerPlayer.totalCellsToHitPlayer + " Zellen treffen");
-                           } else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2) {
-                               panels[row][col].setBackground(Color.BLUE);
-                               System.out.println("Verfehlt!");
-                           }
-                           ComputerPlayer.playerHasShot = true;
-                       }
+                        if (GameField.get(row).get(col) != 3) {
+                            if (GameField.get(row).get(col) == 1) {
+                                panels[row][col].setBackground(Color.GREEN);
+                                System.out.println("Getroffen, yeah!");
+                                GameField.get(row).set(col, 3);
+                                ComputerPlayer.totalCellsToHitPlayer--;
+                                score.setText("Du musst noch " + ComputerPlayer.totalCellsToHitPlayer + " Zellen treffen");
+                            } else if (GameField.get(row).get(col) == 0 || GameField.get(row).get(col) == 2) {
+                                panels[row][col].setBackground(Color.BLUE);
+                                System.out.println("Verfehlt!");
+                            }
+                            ComputerPlayer.playerHasShot = true;
+                        }
                     }
                 });
 
@@ -97,7 +98,6 @@ public class ComputerPlayer extends BoardRules {
         JPanel scorePanel = new JPanel(new BorderLayout());
         scorePanel.add(score, BorderLayout.CENTER);
         frame.add(scorePanel, BorderLayout.NORTH);
-        // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
         JPanel eastPanel = new JPanel();
@@ -105,44 +105,42 @@ public class ComputerPlayer extends BoardRules {
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
 
-        // Erstelle ein JFrame für die Darstellung des JPanel
         JFrame jFrame = new JFrame();
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(frame);
         jFrame.pack();
 
-        //frame.setResizable(false);
-        // Center the frame on the screen
-       // frame.setLocationRelativeTo(null);
-       // frame.setVisible(true);
+        placeShipsOnBoard(panels, GameField, boatSizes);
 
-       placeShipsOnBoard(panels, GameField, boatSizes);
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                panels[i][j].setBackground(null);
+            }}
 
-       for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            panels[i][j].setBackground(null);
-        }}
-       
 
-        return frame; 
+        return frame;
     }
 
+    /**
+     * Platziert die Schiffe auf dem Spielfeld des Computers.
+     *
+     * @param GameField Das Spielfeld.
+     * @param boatSizes Die Größen der Boote des Computers.
+     * @return Das Spielfeld mit platzierten Schiffen.
+     */
     public ArrayList<ArrayList<Integer>> placeShipsOnComputerBoard(ArrayList<ArrayList<Integer>> GameField, ArrayList<Integer> boatSizes) {
         ArrayList<ArrayList<Integer>> generatedField = GameField;
         int maxTries = 0;
         Random random = new Random();
         int size = GameField.size()-1;
 
-        while(!boatSizes.isEmpty() || maxTries < 100)
-        {
+        while(!boatSizes.isEmpty() || maxTries < 100) {
             int placeRow = random.nextInt(size)+0;
             int placeCol = random.nextInt(size)+0;
 
-            // 1 = Vertikal        2 = Horizontal \\
             int horizontalOrVertical = random.nextInt(2) + 1;
 
-            if(horizontalOrVertical == 1)
-            {
+            if(horizontalOrVertical == 1) {
                 if(placeShipVertical(panels, generatedField, boatSizes, placeRow, placeCol)){
                     boatSizes.removeLast();
                 }
@@ -158,16 +156,10 @@ public class ComputerPlayer extends BoardRules {
                 }
             }
 
-            /*
-            * maxTries verhindert, dass die while Schleife unnötig lange läuft,
-            * sollte der Algorithmus es nicht hinbekommen, die Schiffe richtig zu platzieren 
-            */
             maxTries++;
         }
 
-        if(boatSizes.isEmpty())
-        {
-            //printField(generatedField);
+        if(boatSizes.isEmpty()) {
             GameField = generatedField;
         } else {
             placeShipsOnBoard(panels, GameField, boatSizes);
@@ -175,9 +167,4 @@ public class ComputerPlayer extends BoardRules {
         return GameField;
     }
 
-
-    public void shoot()
-    {
-        
-    }
 }

@@ -10,60 +10,46 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
+ * @author Leonie Hahn
+ * @author Malte Martens
+ * @author Oliver Hartmann
+ * @version 1.0
  * Die Klasse {@code Board} erbt von {@code BoardRules} und repräsentiert das Spielfeld des Spiels.
  * Sie enthält Methoden zur Erstellung der Benutzeroberfläche und zur Durchführung von Schüssen.
  */
 public class Board extends BoardRules {
-    /**
-     * Die Anzahl der Reihen im Spielfeld.
-     */
+    /** * Die Anzahl der Reihen im Spielfeld.*/
     private int ROWS = -1;
 
-    /**
-     * Die Anzahl der Spalten im Spielfeld.
-     */
+    /** * Die Anzahl der Spalten im Spielfeld.*/
     private int COLS = -1;
 
-    /**
-     * Ein zweidimensionales Array von {@code JPanel}, das das Spielfeld darstellt.
-     */
+    /** * Ein zweidimensionales Array von {@code JPanel}, das das Spielfeld darstellt.*/
     private JPanel[][] panels;
 
-    /**
-     * Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld darstellt.
-     */
+    /** * Eine zweidimensionale {@code ArrayList} von {@code Integer}, die das Spielfeld darstellt.*/
     public ArrayList<ArrayList<Integer>> GameField;
 
-    /**
-     * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote enthält.
-     */
+    /** * Eine {@code ArrayList} von {@code Integer}, die die Größen der Boote enthält.*/
     public static ArrayList<Integer> boatSizes;
 
-    /**
-     * Ein Flag, das anzeigt, ob das Spiel bereit ist zu starten.
-     */
+    /** * Ein Flag, das anzeigt, ob das Spiel bereit ist zu starten.*/
     public static boolean isReadyToStart = false;
 
-    /**
-     * Die Gesamtanzahl der Zellen, die der Computer treffen muss.
-     */
+    /** * Die Gesamtanzahl der Zellen, die der Computer treffen muss.*/
     public static int totalCellsToHitComputer = 0;
 
-    /**
-     * Die Größe des Spielfeldes.
-     */
+    /** * Die Größe des Spielfeldes.*/
     public static int size = 0;
 
-    /**
-     * Ein Zufallsgenerator für die Schusspositionen des Computers.
-     */
+    /** * Ein Zufallsgenerator für die Schusspositionen des Computers.*/
     public static Random random;
     public static JLabel score;
 
     /**
      * Erstellt und zeigt die grafische Benutzeroberfläche (GUI) für das Spielfeld.
      *
-     * @param size Die Größe des Spielfeldes (Anzahl der Reihen und Spalten).
+     * @param size Die Größe des Spielfeldes (Reihen und Spalten).
      * @param GameField Die Datenstruktur, die das Spielfeld darstellt.
      * @param boatSizes Die Größen der Boote.
      * @param totalCellsToHitComputer Die Gesamtanzahl der Zellen, die der Computer treffen muss.
@@ -82,7 +68,6 @@ public class Board extends BoardRules {
         this.random = new Random(size);
 
         JPanel frame = new JPanel();
-        // frame.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLayout(new BorderLayout());
 
@@ -92,7 +77,6 @@ public class Board extends BoardRules {
 
         frame.add(scorePanel, BorderLayout.NORTH);
 
-        // Create the panel that will hold the board
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(ROWS, COLS));
 
@@ -119,20 +103,12 @@ public class Board extends BoardRules {
 
         }
 
-        // Add the board panel to the center of the frame
         frame.add(boardPanel, BorderLayout.CENTER);
 
         JPanel eastPanel = new JPanel();
         eastPanel.setPreferredSize(new Dimension(20, 0));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         frame.add(eastPanel, BorderLayout.EAST);
-
-        // frame.setResizable(false);
-        // Center the frame on the screen
-        // frame.setLocationRelativeTo(null);
-        // frame.setVisible(true);
-
-        // placeShipsOnBoard(panels, GameField, boatSizes);
 
         return frame;
     }
