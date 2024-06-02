@@ -67,9 +67,7 @@ public class ComputerPlayer extends BoardRules {
                 final int col = j;
                 panels[i][j] = new JPanel();
                 panels[i][j].setBorder(new LineBorder(Color.BLACK));
-                if (GameField.get(i).get(j) == 1) {
-                    panels[i][j].setBackground(Color.GRAY);
-                }
+
 
                 panels[i][j].addMouseListener(new MouseAdapter() {
                     @Override
@@ -113,6 +111,11 @@ public class ComputerPlayer extends BoardRules {
        // frame.setVisible(true);
 
        placeShipsOnBoard(panels, GameField, boatSizes);
+
+       for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            panels[i][j].setBackground(null);
+        }}
        
 
         return frame; 
