@@ -141,7 +141,10 @@ public class PlacePanel extends BoardRules {
                             if (GameField.get(row).get(col) == 1) {
                                 deleteShip(panels, GameField, row, col,boatSizes);
                                 header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
-                                placeShipHorizontal(panels, GameField, boatSizes, row, col);
+                                if(placeShipHorizontal(panels, GameField, boatSizes, row, col)) 
+                                {
+                                    boatSizes.removeLast();
+                                }
                                 
                                 if(!boatSizes.isEmpty()) {
                                     header.setText("Nächste Schiffslänge: " + boatSizes.getLast());
