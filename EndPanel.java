@@ -23,8 +23,8 @@ public class EndPanel extends JFrame {
         }
 
 
-        JButton beendenButton = new JButton("Beenden");
-            beendenButton.addActionListener(new ActionListener() {
+        JButton playAgainButton = new JButton("Nochmal Spielen");
+            playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BattleShip battleShip = new BattleShip();
@@ -32,10 +32,30 @@ public class EndPanel extends JFrame {
                 System.exit(0);
             }
         });
-        add(beendenButton, BorderLayout.SOUTH);
+
+        JButton endButton = new JButton("Beenden");
+            endButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        
+        playAgainButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playAgainButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, playAgainButton.getMinimumSize().height));
+
+        endButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        endButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, endButton.getMinimumSize().height));
+
+        buttonPanel.add(playAgainButton);
+        buttonPanel.add(endButton);
 
         
-        add(winnerLabel);
+        add(winnerLabel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
         setSize(325, 150);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
